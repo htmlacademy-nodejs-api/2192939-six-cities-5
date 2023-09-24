@@ -9,8 +9,6 @@ function bootstrap() {
     new ImportCommand(),
   ]);
 
-  console.log(process.argv);
-
   cliApplication.processCommand(process.argv);
 }
 
