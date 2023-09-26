@@ -5,6 +5,9 @@ export class HelpCommand implements Command {
   public getName(): string {
     return '--help';
   }
+  /** Предназначена для
+   *
+   */
 
   public async execute(..._parameters: string[]): Promise<void> {
     console.info(
