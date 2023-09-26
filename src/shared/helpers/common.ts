@@ -22,3 +22,7 @@ export function getImages(items: string[]): string[] {
   }
   return Array.from(images);
 }
+
+export function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : '';
+}
