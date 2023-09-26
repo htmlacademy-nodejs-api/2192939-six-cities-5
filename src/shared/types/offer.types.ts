@@ -1,3 +1,4 @@
+import { City } from './city.types';
 import { Location } from './location.types.js';
 
 export type Offer = {
@@ -7,10 +8,7 @@ export type Offer = {
   type: string;
   price: number;
   images: string[];
-  city: {
-    name: string;
-    location: Location;
-  };
+  city: City;
   imagePreview: string;
   location: Location;
   goods: string[];
