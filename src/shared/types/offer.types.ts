@@ -1,10 +1,9 @@
-import { Host } from './host.types.js';
 import { Location } from './location.types.js';
 
 export type Offer = {
-  id: string;
   title: string;
   description: string;
+  date: string;
   type: string;
   price: number;
   images: string[];
@@ -12,12 +11,14 @@ export type Offer = {
     name: string;
     location: Location;
   };
+  imagePreview: string;
   location: Location;
   goods: string[];
-  host: Host;
+  hostId: string;
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
   bedrooms: number;
   maxAdults: number;
+  quantityReviews: number;
 };
