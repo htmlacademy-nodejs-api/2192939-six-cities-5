@@ -1,0 +1,158 @@
+{
+  "offer": {
+    "title": [
+      "The Pondhouse - A Magical Place",
+      "Waterfront with extraordinary view",
+      "Tile House",
+      "Nice, cozy, warm big bed apartment",
+      "The house among olive ",
+      "House in countryside",
+      "Perfectly located Castro",
+      "Canal View Prinsengracht",
+      "Loft Studio in the Central Area",
+      "Amazing and Extremely Central Flat"
+    ],
+    "description": [
+      "Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.",
+      "Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.",
+      "I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!",
+      "Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.",
+      "A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.",
+      "I rent out a very sunny and bright apartment only 7 minutes walking distance to the metro station. The apartment has a spacious living room with a kitchen, one bedroom and a bathroom with mit bath. A terrace can be used in summer.",
+      "This is a place for dreamers to reset, reflect, and create. Designed with a 'slow' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.",
+      "Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed."
+    ],
+    "type": ["apartment", "house", "room", "hotel"],
+    "images": [
+      "image-1.jpg",
+      "image-2.jpg",
+      "image-3.jpg",
+      "image-4.jpg",
+      "image-5.jpg",
+      "image-6.jpg",
+      "image-7.jpg",
+      "image-8.jpg",
+      "image-9.jpg",
+      "image-10.jpg",
+      "image-11.jpg",
+      "image-12.jpg",
+      "image-13.jpg",
+      "image-14.jpg",
+      "image-15.jpg"
+    ],
+    "city": [
+      {
+        "name": "Paris",
+        "location": {
+          "latitude": 48.85661,
+          "longitude": 2.351499,
+          "zoom": 13
+        }
+      },
+      {
+        "name": "Cologne",
+        "location": {
+          "latitude": 50.938361,
+          "longitude": 6.959974,
+          "zoom": 13
+        }
+      },
+      {
+        "name": "Brussels",
+        "location": {
+          "latitude": 50.846557,
+          "longitude": 4.351697,
+          "zoom": 13
+        }
+      },
+      {
+        "name": "Amsterdam",
+        "location": {
+          "latitude": 52.370216,
+          "longitude": 4.895168,
+          "zoom": 13
+        }
+      },
+      {
+        "name": "Hamburg",
+        "location": {
+          "latitude": 53.550341,
+          "longitude": 10.000654,
+          "zoom": 13
+        }
+      },
+      {
+        "name": "Dusseldorf",
+        "location": {
+          "latitude": 51.225402,
+          "longitude": 6.776314,
+          "zoom": 13
+        }
+      }
+    ],
+    "location": [
+      {
+        "latitude": 50.950361,
+        "longitude": 6.961974,
+        "zoom": 16
+      },
+      { "latitude": 50.934361, "longitude": 6.943974, "zoom": 16 },
+      {
+        "latitude": 50.960361,
+        "longitude": 6.967974,
+        "zoom": 16
+      },
+      {
+        "latitude": 50.941361,
+        "longitude": 6.956974,
+        "zoom": 16
+      },
+      {
+        "latitude": 50.916361,
+        "longitude": 6.944974,
+        "zoom": 16
+      }
+    ],
+    "goods": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "host": [
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      },
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      },
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      },
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      },
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      },
+      {
+        "isPro": true,
+        "name": "Angelina",
+        "avatarUrl": "avatar-angelina.jpg"
+      }
+    ]
+  }
+}

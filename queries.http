@@ -1,0 +1,4 @@
+# Get mock data from fake server
+GET http://localhost:3456/offer HTTP/1.1
+
+###
