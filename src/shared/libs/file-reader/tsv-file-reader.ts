@@ -22,9 +22,9 @@ export class TSVFileReader implements FileReader {
       .map((line) => line.split('\t'))
       .map(
         ([
-          id,
           title,
           description,
+          date,
           type,
           price,
           images,
@@ -32,22 +32,22 @@ export class TSVFileReader implements FileReader {
           cityLatitude,
           cityLongitude,
           cityZoom,
+          imagePreview,
           offerLatitude,
           offerLongitude,
           offerZoom,
           goods,
-          isPro,
-          hostName,
-          avatarUrl,
+          hostId,
           isPremium,
           isFavorite,
           rating,
           bedrooms,
           maxAdults,
+          quantityReviews,
         ]) => ({
-          id,
           title,
           description,
+          date,
           type,
           price: Number.parseInt(price, 10),
           images: images.split(';').map((image) => image),
@@ -59,22 +59,20 @@ export class TSVFileReader implements FileReader {
               zoom: Number.parseInt(cityZoom, 10),
             },
           },
+          imagePreview,
           location: {
             latitude: Number.parseFloat(offerLatitude),
             longitude: Number.parseFloat(offerLongitude),
             zoom: Number.parseInt(offerZoom, 10),
           },
           goods: goods.split(';').map((good) => good),
-          host: {
-            isPro: isPro === 'true',
-            name: hostName,
-            avatarUrl,
-          },
+          hostId,
           isPremium: isPremium === 'true',
           isFavorite: isFavorite === 'true',
           rating: Number.parseFloat(rating),
           bedrooms: Number.parseInt(bedrooms, 10),
           maxAdults: Number.parseInt(maxAdults, 10),
+          quantityReviews: Number.parseInt(quantityReviews, 10),
         })
       );
   }

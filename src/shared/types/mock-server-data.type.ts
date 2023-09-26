@@ -1,13 +1,11 @@
-import { Host } from './host.types.js';
 import { Location } from './location.types.js';
 
 export type MockServerData = {
-  title: string[];
-  description: string[];
-  type: string[];
+  titles: string[];
+  descriptions: string[];
+  types: string[];
   images: string[];
-  city: { name: string; location: Location }[];
-  location: Location[];
+  cities: { name: string; location: Location }[];
+  locations: Location[];
   goods: string[];
-  host: Host[];
 };
