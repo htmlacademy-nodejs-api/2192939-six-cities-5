@@ -4,6 +4,7 @@ import { Command } from './command.interface.js';
 import { TSVOfferGenerator } from '../../shared/libs/offer-generator/tsv-offer-generator.js';
 import { TSVFileWriter } from '../../shared/libs/file-writer/tsv-file-writer.js';
 import { getErrorMessage } from '../../shared/helpers/common.js';
+import chalk from 'chalk';
 
 export class GenerateCommand implements Command {
   private initialData: MockServerData;
@@ -37,8 +38,8 @@ export class GenerateCommand implements Command {
       await this.write(filepath, offerCount);
       console.info(`File ${filepath} was created`);
     } catch (error: unknown) {
-      console.log("Can't generate data");
-      console.error(getErrorMessage(error));
+      console.log(chalk.red("Can't generate data"));
+      console.error(chalk.red(getErrorMessage(error)));
     }
   }
 }
