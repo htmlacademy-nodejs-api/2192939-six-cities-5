@@ -5,8 +5,9 @@
 /dist/
 /docs/
 .idea/*
-/mocks/
 
 .DS_Store
 coverage
 *.log
+mocks/mock-data.tsv
+mocks/mock-server-data.json
