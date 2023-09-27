@@ -17,7 +17,7 @@ export function getRandomItem<T>(items: T[]): T {
 
 export function getImages(items: string[]): string[] {
   const images = new Set<string>();
-  while (images.size === QUANTITY_IMAGES) {
+  while (images.size < QUANTITY_IMAGES) {
     images.add(getRandomItem(items));
   }
   return Array.from(images);

@@ -37,9 +37,9 @@ export class GenerateCommand implements Command {
       await this.load(url);
       await this.write(filepath, offerCount);
       console.info(`File ${filepath} was created`);
-    } catch (error: unknown) {
+    } catch (err: unknown) {
       console.log(chalk.red("Can't generate data"));
-      console.error(chalk.red(getErrorMessage(error)));
+      console.error(chalk.red(getErrorMessage(err)));
     }
   }
 }

@@ -1,4 +1,4 @@
-import { City } from './city.types';
+import { City } from './city.types.js';
 import { Location } from './location.types.js';
 
 export type Offer = {

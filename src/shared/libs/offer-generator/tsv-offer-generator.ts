@@ -1,4 +1,4 @@
-import { City } from './../../types/city.types';
+import { City } from '../../types/city.types.js';
 import dayjs from 'dayjs';
 import {
   getImages,
@@ -67,7 +67,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const hostId = randomUUID();
     const isPremium = 'false';
     const isFavorite = 'false';
-    const rating = generateRandomValue(Rating.Min, Rating.Max, 1).toString;
+    const rating = generateRandomValue(Rating.Min, Rating.Max, 1).toString();
     const bedrooms = generateRandomValue(Bedrooms.Min, Bedrooms.Max).toString();
     const maxAdults = generateRandomValue(Adults.Min, Adults.Max).toString();
     const quantityReviews = generateRandomValue(
