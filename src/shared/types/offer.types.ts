@@ -1,5 +1,4 @@
-import { City } from './city.types.js';
-import { Location } from './location.types.js';
+import { City, Location } from './index.js';
 
 export type Offer = {
   title: string;

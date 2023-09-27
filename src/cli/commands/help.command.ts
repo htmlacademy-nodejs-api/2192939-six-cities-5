@@ -1,13 +1,13 @@
 import chalk from 'chalk';
-import { Command } from './command.interface.js';
+import { Command } from '../index.js';
 
+/**
+ * Выводит список доступных команд и их назначение
+ */
 export class HelpCommand implements Command {
   public getName(): string {
     return '--help';
   }
-  /** Предназначена для
-   *
-   */
 
   public async execute(..._parameters: string[]): Promise<void> {
     console.info(

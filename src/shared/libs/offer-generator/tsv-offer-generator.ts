@@ -1,13 +1,13 @@
-import { City } from '../../types/city.types.js';
+import { City } from '../../types/index.js';
 import dayjs from 'dayjs';
 import {
   getImages,
   getRandomItem,
   getRandomItems,
-} from '../../helpers/common.js';
+  generateRandomValue,
+} from '../../helpers/index.js';
 import { Location, MockServerData } from '../../types/index.js';
 import { OfferGenerator } from './index.js';
-import { generateRandomValue } from '../../helpers/common.js';
 import { randomUUID } from 'node:crypto';
 
 const enum Rating {

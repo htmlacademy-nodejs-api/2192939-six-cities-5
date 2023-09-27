@@ -1,4 +1,4 @@
-import { Location } from './location.types.js';
+import { Location } from './index.js';
 
 export type City = {
   name: string;
