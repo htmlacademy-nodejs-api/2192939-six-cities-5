@@ -1,10 +1,12 @@
 import { Logger as PinoInstance, pino, transport } from 'pino';
 import { Logger } from './index.js';
 import { getCurrentModuleDirectoryPath } from '../../helpers/index.js';
+import { injectable } from 'inversify';
 import { resolve } from 'node:path';
 
 /**Имплементация нужна чтобы в будущем можно было легко сменить логгер или
  * добавить новый на основе интерфейса Logger*/
+@injectable()
 export class PinoLogger implements Logger {
   /**Создает экземпляр pino в приватном свойстве потому что оно нужно будет нам однократно*/
   private readonly logger: PinoInstance;
@@ -33,6 +35,7 @@ export class PinoLogger implements Logger {
     });
 
     this.logger = pino({}, multiTransport);
+    this.logger.info('Logger created...');
   }
 
   /**На основе приватного свойства создаем методы класса, предусмотренный интерфейсом */

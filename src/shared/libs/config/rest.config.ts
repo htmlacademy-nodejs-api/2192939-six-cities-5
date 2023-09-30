@@ -1,16 +1,19 @@
 import { config } from 'dotenv';
+import { inject, injectable } from 'inversify';
 import { Config, RestSchema, configRestSchema } from './index.js';
 import { Logger } from '../logger/index.js';
 import chalk from 'chalk';
+import { Component } from '../../types/index.js';
 
 const ERR_PARSE = "Can't read file. Perhaps the file does not exists.";
 const INFO_SUCCESS = '.env file found and successfully parsed!';
 
 /**Через параметр типа передаем RestSchema и будем получать информацию только о существующих настройках */
+@injectable()
 export class RestConfig implements Config<RestSchema> {
   private readonly config: RestSchema;
 
-  constructor(private readonly logger: Logger) {
+  constructor(@inject(Component.Logger) private readonly logger: Logger) {
     /**Загружает конфигурацию из файла .env в process.env */
     const parsedOutput = config();
     if (parsedOutput.error) {
