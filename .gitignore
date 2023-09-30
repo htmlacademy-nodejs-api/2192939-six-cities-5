@@ -12,3 +12,4 @@ coverage
 moks/
 mocks/mock-data-generate.tsv
 mocks/mock-server-data.json
+.env

@@ -1,36 +1,44 @@
+import { City } from '../../types/index.js';
 import dayjs from 'dayjs';
 import {
   getImages,
   getRandomItem,
   getRandomItems,
-} from '../../helpers/common.js';
+  generateRandomValue,
+} from '../../helpers/index.js';
 import { Location, MockServerData } from '../../types/index.js';
 import { OfferGenerator } from './index.js';
-import { generateRandomValue } from '../../helpers/common.js';
 import { randomUUID } from 'node:crypto';
 
-const MIN_RATING = 1;
-const MAX_RATING = 5;
+const enum Rating {
+  Min = 1,
+  Max = 5,
+}
 
-const MIN_BEDROOMS = 1;
-const MAX_BEDROOMS = 8;
+const enum Bedrooms {
+  Min = 1,
+  Max = 8,
+}
 
-const MIN_ADULTS = 1;
-const MAX_ADULTS = 10;
+const enum Adults {
+  Min = 1,
+  Max = 10,
+}
 
-const MIN_PRICE = 100;
-const MAX_PRICE = 100000;
+const enum Price {
+  Min = 100,
+  Max = 100000,
+}
 
-const MIN_REVIEWS = 0;
-const MAX_REVIEWS = 20;
+const enum Reviews {
+  Min = 0,
+  Max = 20,
+}
 
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
-
-type City = {
-  name: string;
-  location: Location;
-};
+const enum WeekDay {
+  First = 1,
+  Last = 7,
+}
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: MockServerData) {}
@@ -42,10 +50,10 @@ export class TSVOfferGenerator implements OfferGenerator {
     const title = getRandomItem<string>(this.mockData.titles);
     const description = getRandomItem<string>(this.mockData.descriptions);
     const date = dayjs()
-      .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
+      .subtract(generateRandomValue(WeekDay.First, WeekDay.Last), 'day')
       .toISOString();
     const type = getRandomItem<string>(this.mockData.types);
-    const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
+    const price = generateRandomValue(Price.Min, Price.Max).toString();
     const images = getImages(this.mockData.images).join(';');
     const cityName = city.name;
     const cityLatitude = city.location.latitude.toString();
@@ -59,12 +67,12 @@ export class TSVOfferGenerator implements OfferGenerator {
     const hostId = randomUUID();
     const isPremium = 'false';
     const isFavorite = 'false';
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1).toString;
-    const bedrooms = generateRandomValue(MIN_BEDROOMS, MAX_BEDROOMS).toString();
-    const maxAdults = generateRandomValue(MIN_ADULTS, MAX_ADULTS).toString();
+    const rating = generateRandomValue(Rating.Min, Rating.Max, 1).toString();
+    const bedrooms = generateRandomValue(Bedrooms.Min, Bedrooms.Max).toString();
+    const maxAdults = generateRandomValue(Adults.Min, Adults.Max).toString();
     const quantityReviews = generateRandomValue(
-      MIN_REVIEWS,
-      MAX_REVIEWS
+      Reviews.Min,
+      Reviews.Max
     ).toString();
 
     return [

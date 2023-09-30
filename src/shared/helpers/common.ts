@@ -15,9 +15,10 @@ export function getRandomItem<T>(items: T[]): T {
   return items[generateRandomValue(0, items.length - 1)];
 }
 
+/**Выбирает из массива  QUANTITY_IMAGES случайных неповторяющихся изображений*/
 export function getImages(items: string[]): string[] {
   const images = new Set<string>();
-  while (images.size === QUANTITY_IMAGES) {
+  while (images.size < QUANTITY_IMAGES) {
     images.add(getRandomItem(items));
   }
   return Array.from(images);

@@ -1,4 +1,4 @@
-import { Offer } from '../types/offer.types.js';
+import { Offer } from '../types/index.js';
 
 export function createOffer(offerData: string): Offer {
   const [
