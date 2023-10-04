@@ -4,6 +4,10 @@ import { RestApplication } from './rest/index.js';
 import { Config, RestConfig, RestSchema } from './shared/libs/config/index.js';
 import { Logger, PinoLogger } from './shared/libs/logger/index.js';
 import { Component } from './shared/types/index.js';
+import {
+  DatabaseClient,
+  MongoDatabaseClient,
+} from './shared/libs/database-client/index.js';
 
 /**Точка входа в RestApplication */
 async function bootstrap() {
@@ -22,6 +26,9 @@ async function bootstrap() {
     .bind<Config<RestSchema>>(Component.Config)
     .to(RestConfig)
     .inSingletonScope();
+  container
+    .bind<DatabaseClient>(Component.DatabaseClient)
+    .to(MongoDatabaseClient);
 
   /**Из контейнера вызывается реализация RestApplication и уже без параметров */
   const application = container.get<RestApplication>(Component.RestApplication);
