@@ -14,12 +14,5 @@ export function getMongoURI(
   port: string,
   databaseName: string
 ): string {
-  /**Сформированная строка не работает - разбираюсь */
-  console.log(
-    `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=admin`
-  );
-
-  /**Почему-то работает вот эта строка - разбираюсь */
-  return 'mongodb://localhost:27017';
-  // return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=admin`;
+  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=admin`;
 }

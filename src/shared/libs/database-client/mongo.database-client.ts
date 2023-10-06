@@ -38,18 +38,13 @@ export class MongoDatabaseClient implements DatabaseClient {
     while (attempt < RETRY_COUNT) {
       try {
         /**Подключается к БД */
-        console.log(uri);
-
-        this.mongoose = await Mongoose.connect(
-          'mongodb://admin:test@127.0.0.1:27017/six-cities?authSource=admin'
-        );
+        this.mongoose = await Mongoose.connect(uri);
         this.isConnected = true;
 
         this.logger.info('Database connection has established.');
         return;
       } catch (err) {
         attempt++;
-        console.log(err);
 
         this.logger.info(
           `Filed to connect to the database. Attempt ${attempt}`
