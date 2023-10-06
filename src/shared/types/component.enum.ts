@@ -3,6 +3,8 @@ export const Component = {
   Logger: Symbol.for('Logger'),
   Config: Symbol.for('Config'),
   DatabaseClient: Symbol.for('DatabaseClient'),
-  UserContainer: Symbol.for('UserContainer'),
+  UserService: Symbol.for('UserService'),
   UserModel: Symbol.for('UserModel'),
+  ReviewService: Symbol.for('ReviewService'),
+  ReviewModel: Symbol.for('ReviewModel'),
 } as const;

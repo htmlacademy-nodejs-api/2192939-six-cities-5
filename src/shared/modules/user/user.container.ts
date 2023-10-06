@@ -7,7 +7,7 @@ import { DefaultUserService } from './index.js';
 export function createUserContainer() {
   const userContainer = new Container();
   userContainer
-    .bind<UserService>(Component.UserContainer)
+    .bind<UserService>(Component.UserService)
     .to(DefaultUserService)
     .inSingletonScope();
   userContainer
