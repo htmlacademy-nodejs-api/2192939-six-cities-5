@@ -44,7 +44,7 @@ export class RestApplication {
 
     const user = await UserModel.create({
       username: 'Keks',
-      email: 'test@mail.local',
+      email: 'test@mail.loc',
       avatar: 'avatar.jpg',
       password: '123456',
       userType: 'pro',
