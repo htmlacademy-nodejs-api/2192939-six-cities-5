@@ -3,8 +3,9 @@ import {
   getModelForClass,
   modelOptions,
   prop,
+  Ref,
 } from '@typegoose/typegoose';
-import { Review } from '../../types/index.js';
+import { UserEntity } from '../user/index.js';
 
 export interface ReviewEntity extends defaultClasses.Base {}
 
@@ -13,27 +14,27 @@ export interface ReviewEntity extends defaultClasses.Base {}
     collection: 'reviews',
   },
 })
-export class ReviewEntity extends defaultClasses.TimeStamps implements Review {
-  @prop({ required: true, minlength: 5, maxlength: 1024, default: '' })
+export class ReviewEntity extends defaultClasses.TimeStamps {
+  @prop({
+    trim: true,
+    required: true,
+    minlength: 5,
+    maxlength: 1024,
+    default: '',
+  })
   public text: string;
 
   @prop({ required: true, default: '' })
-  public date: Date | undefined;
+  public date!: Date;
 
   @prop({ required: true, min: 1, max: 5, default: 0 })
   public rating: number;
 
-  @prop({ required: true })
-  public userId: string;
-
-  constructor(reviewData: Review) {
-    super();
-
-    this.text = reviewData.text;
-    this.date = this.createdAt;
-    this.rating = reviewData.rating;
-    this.userId = reviewData.userId;
-  }
+  @prop({
+    ref: UserEntity,
+    required: true,
+  })
+  public userId: Ref<UserEntity>;
 }
 
 export const ReviewModel = getModelForClass(ReviewEntity);

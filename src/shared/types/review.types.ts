@@ -1,6 +1,8 @@
+import { User } from './index.js';
+
 export type Review = {
   text: string;
-  date: Date | undefined;
+  date: Date;
   rating: number;
-  userId: string;
+  user: User;
 };

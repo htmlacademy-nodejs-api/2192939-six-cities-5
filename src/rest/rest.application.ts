@@ -4,7 +4,6 @@ import { Logger } from '../shared/libs/logger/index.js';
 import { Component } from '../shared/types/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
-import { ReviewModel } from '../shared/modules/review/review.entity.js';
 
 @injectable()
 export class RestApplication {
@@ -41,15 +40,6 @@ export class RestApplication {
 
     this.logger.info('Init database...');
     await this._initDb();
-
-    const review = await ReviewModel.create({
-      text: 'Keksobot',
-      date: undefined,
-      rating: 2,
-      userId: 'kasdjfklasdj;f',
-    });
-
-    console.log(review);
 
     this.logger.info('Init database completed');
   }

@@ -4,7 +4,7 @@ import {
   prop,
   modelOptions,
 } from '@typegoose/typegoose';
-import { User } from '../../types/index.js';
+import { User, UserType } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/index.js';
 
 export interface UserEntity extends defaultClasses.Base {}
@@ -48,10 +48,10 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
   @prop({
     require: true,
-    default: '',
-    match: [/^(ordinary|pro)$/i, 'UserType is incorrect'],
+    type: () => String,
+    enum: UserType,
   })
-  public userType: string;
+  public userType: UserType;
 
   constructor(userData: User) {
     super();
