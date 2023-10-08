@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { Command } from '../index.js';
 import { resolve } from 'node:path';
 import chalk from 'chalk';
+import { getErrorMessage } from '../../shared/helpers/common.js';
 
 /**
  * Описывает тип для свойства version
@@ -89,9 +90,7 @@ export class VersionCommand implements Command {
        * Если ошибка принадлежит объекту Error, то выводим еще содержимое
        * поля message
        */
-      if (err instanceof Error) {
-        console.error(chalk.red(err.message));
-      }
+      console.error(chalk.red(getErrorMessage(err)));
     }
   }
 }

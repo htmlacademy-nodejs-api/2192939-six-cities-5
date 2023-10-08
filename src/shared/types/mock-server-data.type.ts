@@ -8,4 +8,8 @@ export type MockServerData = {
   cities: City[];
   locations: Location[];
   goods: string[];
+  username: string[];
+  email: string[];
+  avatar: string[];
+  userType: string[];
 };

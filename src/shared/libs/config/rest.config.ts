@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import { Component } from '../../types/index.js';
 
 const ERR_PARSE = "Can't read file. Perhaps the file does not exists.";
+const ERR_VALIDATE = "Can't validate process.env";
 const INFO_SUCCESS = '.env file found and successfully parsed!';
 
 /**Через параметр типа передаем RestSchema и будем получать информацию только о существующих настройках */
@@ -29,7 +30,7 @@ export class RestConfig implements Config<RestSchema> {
         output: this.logger.info,
       });
     } catch {
-      const err = new Error(chalk.red("Can't validate process.env"));
+      const err = new Error(chalk.red(ERR_VALIDATE));
       this.logger.error('Error:', err);
     }
 
