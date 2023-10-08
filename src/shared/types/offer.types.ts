@@ -1,10 +1,10 @@
-import { City, Location } from './index.js';
+import { City, HousingType, Location, User } from './index.js';
 
 export type Offer = {
   title: string;
   description: string;
-  date: string;
-  type: string;
+  date: Date;
+  type: HousingType;
   price: number;
   images: string[];
   city: City;
@@ -18,4 +18,5 @@ export type Offer = {
   bedrooms: number;
   maxAdults: number;
   quantityReviews: number;
+  user: User;
 };

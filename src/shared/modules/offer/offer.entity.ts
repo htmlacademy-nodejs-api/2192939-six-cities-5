@@ -1,11 +1,12 @@
 import {
   Ref,
+  Severity,
   defaultClasses,
   getModelForClass,
   modelOptions,
   prop,
 } from '@typegoose/typegoose';
-import { HousingType, Location, City } from '../../types/index.js';
+import { Location, City, HousingType } from '../../types/index.js';
 import { UserEntity } from '../user/index.js';
 
 export interface OfferEntity extends defaultClasses.Base {}
@@ -13,6 +14,9 @@ export interface OfferEntity extends defaultClasses.Base {}
 @modelOptions({
   schemaOptions: {
     collection: 'offers',
+  },
+  options: {
+    allowMixed: Severity.ALLOW,
   },
 })
 export class OfferEntity extends defaultClasses.TimeStamps {
@@ -94,9 +98,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     ref: UserEntity,
   })
   public hostId: Ref<UserEntity>;
-
-  @prop({ required: true })
-  public reviewCount: number;
 
   @prop({ required: true })
   public location: Location;

@@ -74,6 +74,10 @@ export class TSVOfferGenerator implements OfferGenerator {
       Reviews.Min,
       Reviews.Max
     ).toString();
+    const username = getRandomItem<string>(this.mockData.username);
+    const email = getRandomItem<string>(this.mockData.email);
+    const avatar = getRandomItem<string>(this.mockData.avatar);
+    const userType = getRandomItem<string>(this.mockData.userType);
 
     return [
       title,
@@ -98,6 +102,10 @@ export class TSVOfferGenerator implements OfferGenerator {
       bedrooms,
       maxAdults,
       quantityReviews,
+      username,
+      email,
+      avatar,
+      userType,
     ].join('\t');
   }
 }

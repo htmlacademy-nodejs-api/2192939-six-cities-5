@@ -121,6 +121,22 @@
       "Washer",
       "Towels",
       "Fridge"
-    ]
+    ],
+    "username": ["Jhon", "Angelina", "Dow", "Jilly", "Dolly"],
+    "email": [
+      "post@post.com",
+      "mail@mail.com",
+      "post@mail.com",
+      "mail@post.com",
+      "test@test.com"
+    ],
+    "avatar": [
+      "avatar-1.jpg",
+      "avatar-2.jpg",
+      "avatar-3.jpg",
+      "avatar-4.jpg",
+      "avatar-5.jpg"
+    ],
+    "userType": ["Ordinary", "Pro"]
   }
 }

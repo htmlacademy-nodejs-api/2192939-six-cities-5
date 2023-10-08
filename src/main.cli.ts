@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { fileURLToPath } from 'node:url';
 import { CLIApplication, Command } from './cli/index.js';
 import { dirname, resolve } from 'node:path';
