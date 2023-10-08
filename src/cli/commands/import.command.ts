@@ -12,7 +12,7 @@ export class ImportCommand implements Command {
   }
 
   /**Вызывается когда произойдет событие 'line' */
-  private onImportedLine(line: string) {
+  private async onImportedLine(line: string) {
     const offer = createOffer(line);
     console.log(offer);
   }

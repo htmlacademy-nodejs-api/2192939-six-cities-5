@@ -30,6 +30,7 @@ export class RestApplication {
       this.config.get('DB_PORT'),
       this.config.get('DB_NAME')
     );
+    console.log(mongoUri);
     return this.databaseClient.connect(mongoUri);
   }
 
