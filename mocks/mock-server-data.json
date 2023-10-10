@@ -137,6 +137,6 @@
       "avatar-4.jpg",
       "avatar-5.jpg"
     ],
-    "userType": ["Ordinary", "Pro"]
+    "isPro": [0, 1]
   }
 }

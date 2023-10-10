@@ -7,6 +7,7 @@ import {
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user/index.js';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface ReviewEntity extends defaultClasses.Base {}
 
 @modelOptions({
@@ -14,6 +15,7 @@ export interface ReviewEntity extends defaultClasses.Base {}
     collection: 'reviews',
   },
 })
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class ReviewEntity extends defaultClasses.TimeStamps {
   @prop({
     trim: true,

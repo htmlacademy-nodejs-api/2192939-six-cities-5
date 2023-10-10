@@ -9,6 +9,7 @@ import {
 import { Location, City, HousingType } from '../../types/index.js';
 import { UserEntity } from '../user/index.js';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
 
 @modelOptions({
@@ -19,6 +20,7 @@ export interface OfferEntity extends defaultClasses.Base {}
     allowMixed: Severity.ALLOW,
   },
 })
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     trim: true,
@@ -47,6 +49,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public imagePreview: string;
 
+  /**
+   * Так валидируем количество элементов в массиве
+   */
   @prop({
     required: true,
     validate: (value: string[]): boolean => value.length === 6,
@@ -62,9 +67,20 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public rating: number;
 
+  /**
+   * Так валидируем перечисления
+   */
   @prop({
     required: true,
+    /**
+     * Явно указываем какой тип будет записываться в поле
+     */
     type: () => String,
+    /**
+     * Указываем перечисление
+     * Это нужно для явного указания, что в БД будет храниться строковое
+     * значение одного из элементов перечисления
+     */
     enum: HousingType,
   })
   public type: HousingType;
@@ -93,11 +109,21 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public goods: string[];
 
+  /**
+   * Так как Пользователь отдельная сущность, то используем ссылку на нее
+   */
   @prop({
     required: true,
     ref: UserEntity,
   })
   public hostId: Ref<UserEntity>;
+
+  /**
+   * Необходимо для того, чтобы подсчитывать комментарии не налету,
+   * а увеличивать счетчик по мере добавления комментария
+   */
+  @prop({ default: 0 })
+  public reviewCount: number;
 
   @prop({ required: true })
   public location: Location;

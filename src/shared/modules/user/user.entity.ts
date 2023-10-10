@@ -4,9 +4,10 @@ import {
   prop,
   modelOptions,
 } from '@typegoose/typegoose';
-import { User, UserType } from '../../types/index.js';
+import { User } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/index.js';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
 
 @modelOptions({
@@ -14,6 +15,7 @@ export interface UserEntity extends defaultClasses.Base {}
     collection: 'users',
   },
 })
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     require: true,
@@ -27,7 +29,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     unique: true,
     require: true,
     match: [
-      /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+      /^((([0-9A-Za-z]{1}[-0-9A-z\\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
       'Email is incorrect',
     ],
   })
@@ -48,10 +50,8 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
   @prop({
     require: true,
-    type: () => String,
-    enum: UserType,
   })
-  public userType: UserType;
+  public isPro: boolean;
 
   constructor(userData: User) {
     super();
@@ -59,7 +59,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.username = userData.username;
     this.email = userData.email;
     this.avatar = userData.avatar;
-    this.userType = userData.userType;
+    this.isPro = userData.isPro;
   }
 
   public setPassword(password: string, salt: string) {

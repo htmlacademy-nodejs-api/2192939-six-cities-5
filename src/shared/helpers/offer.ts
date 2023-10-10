@@ -1,4 +1,4 @@
-import { HousingType, Offer, UserType } from '../types/index.js';
+import { HousingType, Offer } from '../types/index.js';
 
 export function createOffer(offerData: string): Offer {
   const [
@@ -27,14 +27,14 @@ export function createOffer(offerData: string): Offer {
     username,
     email,
     avatar,
-    userType,
+    isPro,
   ] = offerData.replace('\n', '').split('\t');
 
   const user = {
     username,
     email,
     avatar,
-    userType: userType as UserType,
+    isPro: Boolean(Number.parseInt(isPro, 10)),
   };
 
   return {
