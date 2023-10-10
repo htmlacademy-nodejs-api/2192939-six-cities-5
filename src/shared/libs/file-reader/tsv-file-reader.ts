@@ -44,7 +44,11 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         /**Увеличивается значение счетчика считанных строк */
         importedRowCount++;
 
-        /**Отправляется событие о том, что строка считана */
+        /**
+         * Создается экземпляр промиса и резолвится
+         * событие о том, что строка считана
+         * Резолв передается в функцию исполнитель onImportedLine
+         */
         await new Promise((resolve) => {
           this.emit('line', completeRow, resolve);
         });

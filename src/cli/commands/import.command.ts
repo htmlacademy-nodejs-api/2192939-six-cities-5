@@ -5,7 +5,7 @@ import {
   MongoDatabaseClient,
 } from '../../shared/libs/database-client/index.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
-import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
+import { ConsoleLogger } from '../../shared/libs/logger/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
 import {
   DefaultOfferService,
@@ -17,7 +17,7 @@ import {
   UserModel,
   UserService,
 } from '../../shared/modules/user/index.js';
-import { Offer } from '../../shared/types/offer.types.js';
+import { Offer } from '../../shared/types/index.js';
 import { Command } from '../index.js';
 import chalk from 'chalk';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
@@ -45,10 +45,17 @@ export class ImportCommand implements Command {
     return '--import';
   }
 
-  /**Вызывается когда произойдет событие 'line' */
+  /**
+   * Вызывается когда произойдет событие 'line'
+   * Для того, чтобы дождаться выполнения асинхронной операции
+   * в качестве параметра передается колбэк resolve
+   */
   private async onImportedLine(line: string, resolve: () => void) {
     const offer = createOffer(line);
     await this.saveOffer(offer);
+    /**
+     * Выполнится после того как строка будет записана в БД
+     */
     resolve();
   }
 

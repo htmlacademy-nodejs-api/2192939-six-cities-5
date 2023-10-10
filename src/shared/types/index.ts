@@ -6,5 +6,4 @@ export * from './city.types.js';
 export * from './component.enum.js';
 export * from './user.types.js';
 export * from './review.types.js';
-export * from './user-type.enum.js';
 export * from './housing-type.enum.js';

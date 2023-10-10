@@ -77,7 +77,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const username = getRandomItem<string>(this.mockData.username);
     const email = getRandomItem<string>(this.mockData.email);
     const avatar = getRandomItem<string>(this.mockData.avatar);
-    const userType = getRandomItem<string>(this.mockData.userType);
+    const isPro = getRandomItem<number>(this.mockData.isPro);
 
     return [
       title,
@@ -105,7 +105,7 @@ export class TSVOfferGenerator implements OfferGenerator {
       username,
       email,
       avatar,
-      userType,
+      isPro,
     ].join('\t');
   }
 }
