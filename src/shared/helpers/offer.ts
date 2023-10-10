@@ -34,7 +34,7 @@ export function createOffer(offerData: string): Offer {
     username,
     email,
     avatar,
-    isPro: Boolean(Number.parseInt(isPro)),
+    isPro: Boolean(Number.parseInt(isPro, 10)),
   };
 
   return {

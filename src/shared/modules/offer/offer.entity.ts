@@ -9,6 +9,7 @@ import {
 import { Location, City, HousingType } from '../../types/index.js';
 import { UserEntity } from '../user/index.js';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
 
 @modelOptions({
@@ -19,6 +20,7 @@ export interface OfferEntity extends defaultClasses.Base {}
     allowMixed: Severity.ALLOW,
   },
 })
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     trim: true,

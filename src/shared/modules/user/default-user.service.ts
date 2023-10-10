@@ -11,6 +11,7 @@ export class DefaultUserService implements UserService {
     @inject(Component.UserModel)
     private readonly userModel: types.ModelType<UserEntity>
   ) {}
+
   public async create(
     dto: CreateUserDto,
     salt: string

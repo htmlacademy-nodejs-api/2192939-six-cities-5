@@ -21,6 +21,7 @@ async function bootstrap() {
   const commands = [];
   for (let i = 0; i < commandFileNames.length; i++) {
     const commandName: Array<{ new (...args: unknown[]): Command }> =
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
       await import(COMMAND_DIR + commandFileNames[i]);
 
     const [command] = Object.values(commandName);
