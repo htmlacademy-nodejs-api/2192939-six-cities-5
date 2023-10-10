@@ -27,7 +27,7 @@ export class ReviewEntity extends defaultClasses.TimeStamps {
   public text: string;
 
   @prop({ required: true, default: '' })
-  public date!: Date;
+  public date: Date;
 
   @prop({ required: true, min: 1, max: 5, default: 0 })
   public rating: number;

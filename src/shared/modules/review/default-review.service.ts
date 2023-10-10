@@ -21,9 +21,9 @@ export class DefaultReviewService implements ReviewService {
     return result;
   }
 
-  public async findByUserId(
-    userId: string
+  public async findByOfferId(
+    offerId: string
   ): Promise<Array<DocumentType<ReviewEntity> | null>> {
-    return this.reviewModel.find({ userId });
+    return this.reviewModel.find({ offerId });
   }
 }
