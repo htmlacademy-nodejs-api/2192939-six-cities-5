@@ -47,5 +47,5 @@ export interface OfferService {
   /**
    * Счетчик количества комментариев
    */
-  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  incReviewCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

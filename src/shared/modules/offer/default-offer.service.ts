@@ -89,11 +89,11 @@ export class DefaultOfferService implements OfferService {
     return (await this.offerModel.exists({ _id: documentId })) !== null;
   }
 
-  public async incCommentCount(
+  public async incReviewCount(
     offerId: string
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
-      .findByIdAndUpdate(offerId, { $inc: { commentCount: 1 } })
+      .findByIdAndUpdate(offerId, { $inc: { reviewCount: 1 } })
       .exec();
   }
 }
