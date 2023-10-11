@@ -5,6 +5,7 @@ import { Component } from './shared/types/index.js';
 import { createRestApplicationContainer } from './rest/index.js';
 import { createUserContainer } from './shared/modules/user/index.js';
 import { createOfferContainer } from './shared/modules/offer/index.js';
+import { createReviewContainer } from './shared/modules/review/index.js';
 
 /**Точка входа в RestApplication */
 async function bootstrap() {
@@ -12,7 +13,8 @@ async function bootstrap() {
   const appContainer = Container.merge(
     createRestApplicationContainer(),
     createUserContainer(),
-    createOfferContainer()
+    createOfferContainer(),
+    createReviewContainer()
   );
 
   /**Из контейнера вызывается реализация RestApplication и уже без параметров */

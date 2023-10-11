@@ -40,4 +40,12 @@ export interface OfferService {
     offerId: string,
     status: number
   ): Promise<DocumentType<OfferEntity> | null>;
+  /**
+   * Проверяет существование записи в БД
+   */
+  exists(documentId: string): Promise<boolean>;
+  /**
+   * Счетчик количества комментариев
+   */
+  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

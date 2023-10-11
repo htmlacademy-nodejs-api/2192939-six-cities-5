@@ -8,6 +8,10 @@ import {
 import { Component, SortType } from '../../types/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { Logger } from '../../libs/logger/index.js';
+import {
+  DEFAULT_OFFER_COUNT,
+  DEFAULT_PREMIUM_OFFER_COUNT,
+} from './offer.constants.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -39,8 +43,12 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.findByIdAndDelete(offerId).exec();
   }
 
-  public async find(): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel.find().sort({ createdAt: SortType.Down }).exec();
+  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ?? DEFAULT_OFFER_COUNT;
+    return this.offerModel
+      .find({}, {}, { limit })
+      .sort({ createdAt: SortType.Down })
+      .exec();
   }
 
   public async findById(
@@ -50,7 +58,14 @@ export class DefaultOfferService implements OfferService {
   }
 
   findPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.offerModel.find({ name: cityName, isPremium: true });
+    return this.offerModel
+      .find(
+        { name: cityName, isPremium: true },
+        {},
+        { DEFAULT_PREMIUM_OFFER_COUNT }
+      )
+      .sort({ createdAt: SortType.Down })
+      .exec();
   }
 
   findFavorites(): Promise<DocumentType<OfferEntity>[] | null> {
@@ -67,6 +82,18 @@ export class DefaultOfferService implements OfferService {
         { isFavorite: Boolean(status) },
         { new: true }
       )
+      .exec();
+  }
+
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({ _id: documentId })) !== null;
+  }
+
+  public async incCommentCount(
+    offerId: string
+  ): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(offerId, { $inc: { commentCount: 1 } })
       .exec();
   }
 }

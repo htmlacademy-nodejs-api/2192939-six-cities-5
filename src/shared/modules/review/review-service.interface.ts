@@ -11,5 +11,5 @@ export interface ReviewService {
    */
   findByOfferId(
     offerId: string
-  ): Promise<Array<DocumentType<ReviewEntity> | null>>;
+  ): Promise<Array<DocumentType<ReviewEntity>[] | null>>;
 }
