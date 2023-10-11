@@ -12,4 +12,8 @@ export interface ReviewService {
   findByOfferId(
     offerId: string
   ): Promise<Array<DocumentType<ReviewEntity>[] | null>>;
+  /**
+   * Удаление списка комментариев при удалении предложения
+   */
+  deleteByOfferId(offerId: string): Promise<number | null>;
 }

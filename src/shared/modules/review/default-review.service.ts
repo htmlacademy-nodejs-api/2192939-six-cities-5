@@ -24,4 +24,10 @@ export class DefaultReviewService implements ReviewService {
   ): Promise<Array<DocumentType<ReviewEntity>[] | null>> {
     return this.reviewModel.find({ offerId }).populate('userId');
   }
+
+  public async deleteByOfferId(offerId: string): Promise<number | null> {
+    const result = await this.reviewModel.deleteMany({ offerId }).exec();
+
+    return result.deletedCount;
+  }
 }
