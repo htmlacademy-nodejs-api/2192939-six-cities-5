@@ -5,7 +5,6 @@ import { Component } from '../shared/types/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import { OfferService } from '../shared/modules/offer/index.js';
-// import { ReviewService } from '../shared/modules/review/index.js';
 
 @injectable()
 export class RestApplication {
@@ -17,8 +16,7 @@ export class RestApplication {
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient)
     private readonly databaseClient: DatabaseClient,
-    @inject(Component.OfferService) private readonly offerService: OfferService // @inject(Component.ReviewService)
-    // private readonly reviewService: ReviewService
+    @inject(Component.OfferService) private readonly offerService: OfferService
   ) {}
 
   /**
@@ -48,14 +46,6 @@ export class RestApplication {
     this.logger.info('Init database completed');
 
     // Код для экспериментов
-
-    // const dto = {
-    //   text: 'string;',
-    //   rating: 2,
-    //   userId: '652741e6cc59a16b18b57259',
-    //   offerId: '652741e6cc59a16b18b57256',
-    // };
-    // const result = await this.reviewService.create(dto);
 
     const result = await this.offerService.findById('652741e6cc59a16b18b57256');
     console.log(result);
