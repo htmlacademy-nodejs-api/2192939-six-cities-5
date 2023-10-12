@@ -17,10 +17,9 @@ export class RestApplication {
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient)
     private readonly databaseClient: DatabaseClient,
-    @inject(Component.OfferService) private readonly offerService: OfferService
-  ) // @inject(Component.ReviewService)
-  // private readonly reviewService: ReviewService
-  {}
+    @inject(Component.OfferService) private readonly offerService: OfferService // @inject(Component.ReviewService)
+    // private readonly reviewService: ReviewService
+  ) {}
 
   /**
    * Получает строку подключения с помощью функции getMongoURI
@@ -52,13 +51,13 @@ export class RestApplication {
 
     // const dto = {
     //   text: 'string;',
-    //   rating: 3,
-    //   userId: '6526f2c9faff042e2f9ce5ac',
-    //   offerId: '6526f2c9faff042e2f9ce5b3',
+    //   rating: 2,
+    //   userId: '652741e6cc59a16b18b57259',
+    //   offerId: '652741e6cc59a16b18b57256',
     // };
     // const result = await this.reviewService.create(dto);
 
-    const result = await this.offerService.find();
+    const result = await this.offerService.findById('652741e6cc59a16b18b57256');
     console.log(result);
   }
 }

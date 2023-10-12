@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
 import {
   CreateOfferDto,
@@ -101,7 +102,70 @@ export class DefaultOfferService implements OfferService {
   public async findById(
     offerId: string
   ): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findById(offerId).populate(['hostId']).exec();
+    return this.offerModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'offerId',
+            as: 'reviews',
+          },
+        },
+        {
+          $match: {
+            _id: new mongoose.Types.ObjectId(offerId),
+          },
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'hostId',
+            foreignField: '_id',
+            as: 'host',
+          },
+        },
+        {
+          $addFields: {
+            rating: {
+              $divide: [
+                {
+                  $reduce: {
+                    input: '$reviews',
+                    initialValue: 0,
+                    in: {
+                      $add: ['$$value', '$$this.rating'],
+                    },
+                  },
+                },
+                {
+                  $cond: [
+                    {
+                      $ne: [
+                        {
+                          $size: '$reviews',
+                        },
+                        0,
+                      ],
+                    },
+                    {
+                      $size: '$reviews',
+                    },
+                    1,
+                  ],
+                },
+              ],
+            },
+            reviewCount: {
+              $size: '$reviews',
+            },
+            hostId: { $arrayElemAt: ['$host', 0] },
+          },
+        },
+        { $unset: ['reviews', 'host'] },
+      ])
+      .exec()
+      .then((r) => r.at(0) || null);
   }
 
   findPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {

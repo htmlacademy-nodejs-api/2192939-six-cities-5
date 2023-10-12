@@ -10,11 +10,6 @@ import { Location, MockServerData } from '../../types/index.js';
 import { OfferGenerator } from './index.js';
 import { randomUUID } from 'node:crypto';
 
-const enum Rating {
-  Min = 1,
-  Max = 5,
-}
-
 const enum Bedrooms {
   Min = 1,
   Max = 8,
@@ -28,11 +23,6 @@ const enum Adults {
 const enum Price {
   Min = 100,
   Max = 100000,
-}
-
-const enum Reviews {
-  Min = 0,
-  Max = 20,
 }
 
 const enum WeekDay {
@@ -67,13 +57,8 @@ export class TSVOfferGenerator implements OfferGenerator {
     const hostId = randomUUID();
     const isPremium = getRandomItem<number>(this.mockData.isPremium);
     const isFavorite = getRandomItem<number>(this.mockData.isFavorite);
-    const rating = generateRandomValue(Rating.Min, Rating.Max, 1).toString();
     const bedrooms = generateRandomValue(Bedrooms.Min, Bedrooms.Max).toString();
     const maxAdults = generateRandomValue(Adults.Min, Adults.Max).toString();
-    const quantityReviews = generateRandomValue(
-      Reviews.Min,
-      Reviews.Max
-    ).toString();
     const username = getRandomItem<string>(this.mockData.username);
     const email = getRandomItem<string>(this.mockData.email);
     const avatar = getRandomItem<string>(this.mockData.avatar);
@@ -98,10 +83,8 @@ export class TSVOfferGenerator implements OfferGenerator {
       hostId,
       isPremium,
       isFavorite,
-      rating,
       bedrooms,
       maxAdults,
-      quantityReviews,
       username,
       email,
       avatar,
