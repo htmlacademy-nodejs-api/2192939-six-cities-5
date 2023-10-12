@@ -20,10 +20,8 @@ export function createOffer(offerData: string): Offer {
     hostId,
     isPremium,
     isFavorite,
-    rating,
     bedrooms,
     maxAdults,
-    quantityReviews,
     username,
     email,
     avatar,
@@ -62,10 +60,8 @@ export function createOffer(offerData: string): Offer {
     hostId,
     isPremium: Boolean(Number.parseInt(isPremium, 10)),
     isFavorite: Boolean(Number.parseInt(isFavorite, 10)),
-    rating: Number.parseFloat(rating),
     bedrooms: Number.parseInt(bedrooms, 10),
     maxAdults: Number.parseInt(maxAdults, 10),
-    quantityReviews: Number.parseInt(quantityReviews, 10),
     user,
   };
 }

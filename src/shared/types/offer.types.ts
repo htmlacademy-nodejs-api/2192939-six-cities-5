@@ -14,9 +14,7 @@ export type Offer = {
   hostId: string;
   isPremium: boolean;
   isFavorite: boolean;
-  rating: number;
   bedrooms: number;
   maxAdults: number;
-  quantityReviews: number;
   user: User;
 };

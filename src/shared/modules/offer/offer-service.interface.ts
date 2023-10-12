@@ -44,8 +44,4 @@ export interface OfferService {
    * Проверяет существование записи в БД
    */
   exists(documentId: string): Promise<boolean>;
-  /**
-   * Счетчик количества комментариев
-   */
-  incReviewCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

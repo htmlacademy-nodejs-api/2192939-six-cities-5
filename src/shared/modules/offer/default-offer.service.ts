@@ -46,8 +46,55 @@ export class DefaultOfferService implements OfferService {
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     return this.offerModel
-      .find({}, {}, { limit })
-      .sort({ createdAt: SortType.Down })
+      .aggregate([
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'offerId',
+            as: 'reviews',
+          },
+        },
+        {
+          $addFields: {
+            rating: {
+              $divide: [
+                {
+                  $reduce: {
+                    input: '$reviews',
+                    initialValue: 0,
+                    in: {
+                      $add: ['$$value', '$$this.rating'],
+                    },
+                  },
+                },
+                {
+                  $cond: [
+                    {
+                      $ne: [
+                        {
+                          $size: '$reviews',
+                        },
+                        0,
+                      ],
+                    },
+                    {
+                      $size: '$reviews',
+                    },
+                    1,
+                  ],
+                },
+              ],
+            },
+            reviewCount: {
+              $size: '$reviews',
+            },
+          },
+        },
+        { $unset: 'reviews' },
+        { $limit: limit },
+        { $sort: { createdAt: SortType.Down } },
+      ])
       .exec();
   }
 
@@ -87,13 +134,5 @@ export class DefaultOfferService implements OfferService {
 
   public async exists(documentId: string): Promise<boolean> {
     return (await this.offerModel.exists({ _id: documentId })) !== null;
-  }
-
-  public async incReviewCount(
-    offerId: string
-  ): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(offerId, { $inc: { reviewCount: 1 } })
-      .exec();
   }
 }

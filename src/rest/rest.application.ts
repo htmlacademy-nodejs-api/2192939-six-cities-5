@@ -5,6 +5,7 @@ import { Component } from '../shared/types/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import { OfferService } from '../shared/modules/offer/index.js';
+// import { ReviewService } from '../shared/modules/review/index.js';
 
 @injectable()
 export class RestApplication {
@@ -17,7 +18,9 @@ export class RestApplication {
     @inject(Component.DatabaseClient)
     private readonly databaseClient: DatabaseClient,
     @inject(Component.OfferService) private readonly offerService: OfferService
-  ) {}
+  ) // @inject(Component.ReviewService)
+  // private readonly reviewService: ReviewService
+  {}
 
   /**
    * Получает строку подключения с помощью функции getMongoURI
@@ -32,7 +35,6 @@ export class RestApplication {
       this.config.get('DB_PORT'),
       this.config.get('DB_NAME')
     );
-    console.log(mongoUri);
     return this.databaseClient.connect(mongoUri);
   }
 
@@ -47,7 +49,16 @@ export class RestApplication {
     this.logger.info('Init database completed');
 
     // Код для экспериментов
-    const result = await this.offerService.findById('65245ce712734e5eb67b7413');
+
+    // const dto = {
+    //   text: 'string;',
+    //   rating: 3,
+    //   userId: '6526f2c9faff042e2f9ce5ac',
+    //   offerId: '6526f2c9faff042e2f9ce5b3',
+    // };
+    // const result = await this.reviewService.create(dto);
+
+    const result = await this.offerService.find();
     console.log(result);
   }
 }
