@@ -4,6 +4,7 @@ import { Logger } from '../shared/libs/logger/index.js';
 import { Component } from '../shared/types/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
+import { OfferService } from '../shared/modules/offer/index.js';
 
 @injectable()
 export class RestApplication {
@@ -14,7 +15,8 @@ export class RestApplication {
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient)
-    private readonly databaseClient: DatabaseClient
+    private readonly databaseClient: DatabaseClient,
+    @inject(Component.OfferService) private readonly offerService: OfferService
   ) {}
 
   /**
@@ -30,7 +32,6 @@ export class RestApplication {
       this.config.get('DB_PORT'),
       this.config.get('DB_NAME')
     );
-    console.log(mongoUri);
     return this.databaseClient.connect(mongoUri);
   }
 
@@ -43,5 +44,10 @@ export class RestApplication {
     await this._initDb();
 
     this.logger.info('Init database completed');
+
+    // Код для экспериментов
+
+    const result = await this.offerService.findById('652741e6cc59a16b18b57256');
+    console.log(result);
   }
 }

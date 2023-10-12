@@ -6,6 +6,7 @@ import {
   Ref,
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user/index.js';
+import { OfferEntity } from '../offer/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface ReviewEntity extends defaultClasses.Base {}
@@ -26,9 +27,6 @@ export class ReviewEntity extends defaultClasses.TimeStamps {
   })
   public text: string;
 
-  @prop({ required: true, default: '' })
-  public date!: Date;
-
   @prop({ required: true, min: 1, max: 5, default: 0 })
   public rating: number;
 
@@ -37,6 +35,12 @@ export class ReviewEntity extends defaultClasses.TimeStamps {
     required: true,
   })
   public userId: Ref<UserEntity>;
+
+  @prop({
+    ref: OfferEntity,
+    required: true,
+  })
+  public offerId: Ref<OfferEntity>;
 }
 
 export const ReviewModel = getModelForClass(ReviewEntity);
