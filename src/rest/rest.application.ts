@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import express, { Express } from 'express';
 import { Config, RestSchema } from '../shared/libs/config/index.js';
 import { Logger } from '../shared/libs/logger/index.js';
 import { Component } from '../shared/types/index.js';
@@ -8,6 +9,8 @@ import { OfferService } from '../shared/modules/offer/index.js';
 
 @injectable()
 export class RestApplication {
+  private server: Express;
+
   constructor(
     /**С помощь декоратора реализация компонентов будет добавлена автоматически
      * без указания параметров при вызове RestApplication
@@ -17,7 +20,9 @@ export class RestApplication {
     @inject(Component.DatabaseClient)
     private readonly databaseClient: DatabaseClient,
     @inject(Component.OfferService) private readonly offerService: OfferService
-  ) {}
+  ) {
+    this.server = express();
+  }
 
   /**
    * Получает строку подключения с помощью функции getMongoURI
@@ -35,6 +40,11 @@ export class RestApplication {
     return this.databaseClient.connect(mongoUri);
   }
 
+  private async _initServer() {
+    const port = this.config.get('PORT');
+    this.server.listen(port);
+  }
+
   public async init() {
     /**Выводит информационное сообщение при инициализации приложения */
     this.logger.info('Application initialization');
@@ -44,6 +54,12 @@ export class RestApplication {
     await this._initDb();
 
     this.logger.info('Init database completed');
+
+    this.logger.info('Try to init server...');
+    await this._initServer();
+    this.logger.info(
+      `Server started on http://localhost:${this.config.get('PORT')}`
+    );
 
     // Код для экспериментов
 
