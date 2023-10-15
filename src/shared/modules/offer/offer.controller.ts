@@ -3,7 +3,8 @@ import { BaseController, HttpMethod } from '../../../rest/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
 import { Request, Response } from 'express';
-import { OfferService } from './index.js';
+import { OfferRdo, OfferService } from './index.js';
+import { fillDTO } from '../../helpers/common.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -22,7 +23,8 @@ export class OfferController extends BaseController {
 
   public async read(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
-    this.ok(res, offers);
+    const responseData = fillDTO(OfferRdo, offers);
+    this.ok(res, responseData);
   }
 
   // public async create(_req: Request, res: Response): Promise<void> {}
