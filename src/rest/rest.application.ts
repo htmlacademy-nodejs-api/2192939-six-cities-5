@@ -52,6 +52,10 @@ export class RestApplication {
     this.server.use('/offers', this.OfferController.router);
   }
 
+  private async _initMiddleware() {
+    this.server.use(express.json());
+  }
+
   public async init() {
     /**Выводит информационное сообщение при инициализации приложения */
     this.logger.info('Application initialization');
@@ -61,6 +65,10 @@ export class RestApplication {
     await this._initDb();
 
     this.logger.info('Init database completed');
+
+    this.logger.info('Init app-level middleware');
+    await this._initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
 
     this.logger.info('Init controllers');
     await this._initControllers();
