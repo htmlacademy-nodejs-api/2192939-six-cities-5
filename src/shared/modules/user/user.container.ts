@@ -1,8 +1,9 @@
 import { Container } from 'inversify';
 import { types } from '@typegoose/typegoose';
-import { UserEntity, UserModel, UserService } from './index.js';
+import { UserController, UserEntity, UserModel, UserService } from './index.js';
 import { Component } from '../../types/index.js';
 import { DefaultUserService } from './index.js';
+import { Controller } from '../../libs/rest/index.js';
 
 export function createUserContainer() {
   const userContainer = new Container();
@@ -13,6 +14,10 @@ export function createUserContainer() {
   userContainer
     .bind<types.ModelType<UserEntity>>(Component.UserModel)
     .toConstantValue(UserModel);
+  userContainer
+    .bind<Controller>(Component.UserController)
+    .to(UserController)
+    .inSingletonScope();
 
   return userContainer;
 }
