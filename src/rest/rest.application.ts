@@ -58,6 +58,10 @@ export class RestApplication {
     this.server.use(express.json());
   }
 
+  private async _initExceptionFilter() {
+    this.server.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+  }
+
   public async init() {
     /**Выводит информационное сообщение при инициализации приложения */
     this.logger.info('Application initialization');
@@ -76,6 +80,9 @@ export class RestApplication {
     await this._initControllers();
     this.logger.info('Controller initialization completed');
 
+    this.logger.info('Init exception filters');
+    await this._initExceptionFilter();
+    this.logger.info('Exception filters initialization completed');
     this.logger.info('Try to init server...');
     await this._initServer();
     this.logger.info(
