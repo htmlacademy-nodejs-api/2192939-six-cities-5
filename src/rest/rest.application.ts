@@ -6,7 +6,7 @@ import { Component } from '../shared/types/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import { OfferService } from '../shared/modules/offer/index.js';
-import { Controller } from './index.js';
+import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
 
 @injectable()
 export class RestApplication {
@@ -22,7 +22,9 @@ export class RestApplication {
     private readonly databaseClient: DatabaseClient,
     @inject(Component.OfferService) private readonly offerService: OfferService,
     @inject(Component.OfferController)
-    private readonly OfferController: Controller
+    private readonly OfferController: Controller,
+    @inject(Component.ExceptionFilter)
+    private readonly exceptionFilter: ExceptionFilter
   ) {
     this.server = express();
   }

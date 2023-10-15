@@ -8,7 +8,7 @@ import {
   OfferController,
 } from './index.js';
 import { types } from '@typegoose/typegoose';
-import { Controller } from '../../../rest/index.js';
+import { Controller } from '../../libs/rest/index.js';
 
 export function createOfferContainer() {
   const offerContainer = new Container();

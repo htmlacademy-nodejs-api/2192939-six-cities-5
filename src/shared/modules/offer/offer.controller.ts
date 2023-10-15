@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { BaseController, HttpMethod } from '../../../rest/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
 import { Request, Response } from 'express';
 import { CreateOfferDto, OfferRdo, OfferService } from './index.js';
 import { fillDTO } from '../../helpers/common.js';
+import { BaseController, HttpMethod } from '../../libs/rest/index.js';
 
 @injectable()
 export class OfferController extends BaseController {
