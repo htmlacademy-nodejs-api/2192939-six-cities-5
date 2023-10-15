@@ -9,5 +9,5 @@ Content-Type: application/json
    "email": "string",
    "avatar": "string",
    "password": "string",
-   "isPro": true,
+   "isPro": true
 }
