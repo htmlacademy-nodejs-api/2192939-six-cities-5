@@ -58,38 +58,8 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: {
-              $divide: [
-                {
-                  $reduce: {
-                    input: '$reviews',
-                    initialValue: 0,
-                    in: {
-                      $add: ['$$value', '$$this.rating'],
-                    },
-                  },
-                },
-                {
-                  $cond: [
-                    {
-                      $ne: [
-                        {
-                          $size: '$reviews',
-                        },
-                        0,
-                      ],
-                    },
-                    {
-                      $size: '$reviews',
-                    },
-                    1,
-                  ],
-                },
-              ],
-            },
-            reviewCount: {
-              $size: '$reviews',
-            },
+            rating: { $avg: '$reviews.rating' },
+            reviewCount: { $size: '$reviews' },
           },
         },
         { $unset: 'reviews' },
@@ -127,38 +97,8 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: {
-              $divide: [
-                {
-                  $reduce: {
-                    input: '$reviews',
-                    initialValue: 0,
-                    in: {
-                      $add: ['$$value', '$$this.rating'],
-                    },
-                  },
-                },
-                {
-                  $cond: [
-                    {
-                      $ne: [
-                        {
-                          $size: '$reviews',
-                        },
-                        0,
-                      ],
-                    },
-                    {
-                      $size: '$reviews',
-                    },
-                    1,
-                  ],
-                },
-              ],
-            },
-            reviewCount: {
-              $size: '$reviews',
-            },
+            rating: { $avg: '$reviews.rating' },
+            reviewCount: { $size: '$reviews' },
             hostId: { $arrayElemAt: ['$host', 0] },
           },
         },
@@ -170,12 +110,37 @@ export class DefaultOfferService implements OfferService {
 
   findPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.offerModel
-      .find(
-        { name: cityName, isPremium: true },
-        {},
-        { DEFAULT_PREMIUM_OFFER_COUNT }
-      )
-      .sort({ createdAt: SortType.Down })
+      .aggregate([
+        {
+          $match: {
+            $and: [
+              {
+                'city.name': cityName,
+              },
+              {
+                isPremium: true,
+              },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'offerId',
+            as: 'reviews',
+          },
+        },
+        {
+          $addFields: {
+            rating: { $avg: '$reviews.rating' },
+            reviewCount: { $size: '$reviews' },
+          },
+        },
+        { $unset: 'reviews' },
+        { $limit: DEFAULT_PREMIUM_OFFER_COUNT },
+        { $sort: { createdAt: SortType.Down } },
+      ])
       .exec();
   }
 

@@ -15,7 +15,7 @@ tags:
     description: Действия с пользователями.
 
 paths:
-  /six-cities/register:
+  /users/register:
     post:
       tags:
        -  users
@@ -44,7 +44,7 @@ paths:
         "409":
           description: Пользователь с таким email уже существует.
 
-  /six-cities/login:
+  /users/login:
    post:
       tags:
        -  users
@@ -87,7 +87,7 @@ paths:
         "401":
           description: Пользователь не авторизован.
 
-  /six-cities/logout:
+  /users/logout:
    delete:
       tags:
        -  users
@@ -98,7 +98,7 @@ paths:
         "204":
           description: Сеанс завершен.
 
-  /six-cities/offers/createOffer:
+  /offers/createOffer:
     post:
       tags:
         - offers
@@ -127,7 +127,7 @@ paths:
         "401":
           description: Создание предложения возможно только для зарегистрированных пользователей.
 
-  /six-cities/offers/{offerId}/update:
+  /offers/{offerId}/update:
     post:
       tags:
         - offers
@@ -163,7 +163,7 @@ paths:
         "401":
           description: Обновление предложения возможно только для зарегистрированных пользователей.
 
-  /six-cities/offers/{offerId}/delete:
+  /offers/{offerId}/delete:
     delete:
       tags:
         - offers
@@ -191,7 +191,7 @@ paths:
         "404":
           description: Запрашиваемые данные не найдены
 
-  /six-cities/offers:
+  /offers:
     get:
       tags:
         - offers
@@ -216,7 +216,7 @@ paths:
         "404":
           description: Запрашиваемые данные не найдены
 
-  /six-cities/offers{offerId}:
+  /offers{offerId}:
     get:
       tags:
         - offers
@@ -241,7 +241,7 @@ paths:
         "404":
           description: Предложение не найдено
 
-  /six-cities/favorite:
+  /favorite:
     get:
       tags:
         - offers
@@ -259,7 +259,7 @@ paths:
         "401":
           description: Просмотр избранных предложений возможен только для зарегистрированных пользователей.
 
-  /six-cities/favorite/{offerId}/{status}:
+  /favorite/{offerId}/{status}:
     post:
       tags:
         - offers
@@ -305,7 +305,7 @@ paths:
         "409":
           description: Приложение уже добавлено в избранное.
 
-  /six-cities/reviews/{offerId}:
+  /reviews/{offerId}:
     get:
       tags:
         - reviews
@@ -672,7 +672,7 @@ components:
         example: 2023-09-19T21:00:00.506Z
       rating:
         type: number
-        example: 3.2
+        example: 3
       user:
         type: string
         example: 7911a1e0-b7f6-4c18-a83b-b1af7212fccc
