@@ -4,6 +4,7 @@ import { Controller } from './controller.interface.js';
 import { Response, Router } from 'express';
 import { Logger } from '../../logger/index.js';
 import { Route } from '../index.js';
+import asyncHandler from 'express-async-handler';
 
 const DEFAULT_CONTENT_TYPE = 'application/json';
 /**
@@ -31,7 +32,8 @@ export abstract class BaseController implements Controller {
   }
 
   public addRoute(route: Route): void {
-    this._router[route.method](route.path, route.handler.bind(this));
+    const wrapperAsyncHandler = asyncHandler(route.handler.bind(this));
+    this._router[route.method](route.path, wrapperAsyncHandler);
     this.logger.info(
       `Route registered: ${route.method.toUpperCase()} ${route.path}`
     );
