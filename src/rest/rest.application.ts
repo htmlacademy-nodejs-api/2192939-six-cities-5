@@ -74,7 +74,7 @@ export class RestApplication {
 
     // Код для экспериментов
 
-    const result = await this.offerService.findById('652741e6cc59a16b18b57256');
+    const result = await this.offerService.findPremium('Amsterdam');
     console.log(result);
   }
 }
