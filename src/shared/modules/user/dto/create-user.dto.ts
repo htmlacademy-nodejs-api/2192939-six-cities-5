@@ -4,4 +4,5 @@ export class CreateUserDto {
   public avatar: string;
   public password: string;
   public isPro: boolean;
+  public favorites: string[];
 }

@@ -1,0 +1,12 @@
+# Отзывы
+## Создать отзыв
+
+POST http://localhost:5000/reviews HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Hello gice Hello",
+  "rating": 2,
+  "userId": "652c13d06ca32aa32aab1714",
+  "offerId": "652bc339a4b067f1c1aae1b8"
+}
