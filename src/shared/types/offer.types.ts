@@ -13,7 +13,6 @@ export type Offer = {
   goods: string[];
   hostId: string;
   isPremium: boolean;
-  isFavorite: boolean;
   bedrooms: number;
   maxAdults: number;
   user: User;

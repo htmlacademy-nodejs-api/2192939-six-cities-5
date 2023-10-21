@@ -56,7 +56,6 @@ export class TSVOfferGenerator implements OfferGenerator {
     const goods = getRandomItems<string>(this.mockData.goods).join(';');
     const hostId = randomUUID();
     const isPremium = getRandomItem<number>(this.mockData.isPremium);
-    const isFavorite = getRandomItem<number>(this.mockData.isFavorite);
     const bedrooms = generateRandomValue(Bedrooms.Min, Bedrooms.Max).toString();
     const maxAdults = generateRandomValue(Adults.Min, Adults.Max).toString();
     const username = getRandomItem<string>(this.mockData.username);
@@ -82,7 +81,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       goods,
       hostId,
       isPremium,
-      isFavorite,
       bedrooms,
       maxAdults,
       username,

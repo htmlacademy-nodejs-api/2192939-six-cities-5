@@ -7,6 +7,8 @@ import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
 import { UserController } from '../shared/modules/user/user.controller.js';
+import { FavoriteController } from '../shared/modules/favorite/favorite.controller.js';
+import ReviewController from '../shared/modules/review/review.controller.js';
 
 @injectable()
 export class RestApplication {
@@ -27,7 +29,9 @@ export class RestApplication {
     @inject(Component.UserController)
     private readonly userController: UserController,
     @inject(Component.ReviewController)
-    private readonly reviewController: Controller
+    private readonly reviewController: ReviewController,
+    @inject(Component.FavoriteController)
+    private readonly favoriteController: FavoriteController
   ) {
     this.server = express();
   }
@@ -57,6 +61,7 @@ export class RestApplication {
     this.server.use('/offers', this.offerController.router);
     this.server.use('/users', this.userController.router);
     this.server.use('/reviews', this.reviewController.router);
+    this.server.use('/favorite', this.favoriteController.router);
   }
 
   private async _initMiddleware() {

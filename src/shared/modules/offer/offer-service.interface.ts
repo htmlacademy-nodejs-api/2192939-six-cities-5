@@ -30,17 +30,6 @@ export interface OfferService {
    */
   getPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null>;
   /**
-   * Получение списка предложений, добавленных в избранное
-   */
-  getFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null>;
-  /**
-   * Добавление/удаление предложения в/из избранное
-   */
-  setFavoriteById(
-    offerId: string,
-    status: number
-  ): Promise<DocumentType<OfferEntity> | null>;
-  /**
    * Проверяет существование записи в БД
    */
   exists(documentId: string): Promise<boolean>;

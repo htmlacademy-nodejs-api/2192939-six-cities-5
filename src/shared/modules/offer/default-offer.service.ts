@@ -144,23 +144,6 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  getFavorites(): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.offerModel.find({ isFavorite: true }).exec();
-  }
-
-  setFavoriteById(
-    offerId: string,
-    status: number
-  ): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(
-        offerId,
-        { isFavorite: Boolean(status) },
-        { new: true }
-      )
-      .exec();
-  }
-
   public async exists(documentId: string): Promise<boolean> {
     return (await this.offerModel.exists({ _id: documentId })) !== null;
   }
