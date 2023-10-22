@@ -6,6 +6,7 @@ import { createRestApplicationContainer } from './rest/index.js';
 import { createUserContainer } from './shared/modules/user/index.js';
 import { createOfferContainer } from './shared/modules/offer/index.js';
 import { createReviewContainer } from './shared/modules/review/index.js';
+import { createFavoriteContainer } from './shared/modules/favorite/favorite.container.js';
 
 /**Точка входа в RestApplication */
 async function bootstrap() {
@@ -14,7 +15,8 @@ async function bootstrap() {
     createRestApplicationContainer(),
     createUserContainer(),
     createOfferContainer(),
-    createReviewContainer()
+    createReviewContainer(),
+    createFavoriteContainer()
   );
 
   /**Из контейнера вызывается реализация RestApplication и уже без параметров */

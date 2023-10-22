@@ -1,16 +1,12 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose } from 'class-transformer';
 import { City, HousingType, Location } from '../../../types/index.js';
-import { UserRdo } from '../../user/rdo/user.rdo.js';
 
-export class OfferRdo {
+export class OffersRdo {
   @Expose({ name: '_id' })
   public id: string;
 
   @Expose()
   public title: string;
-
-  @Expose()
-  public description: string;
 
   @Expose()
   public date: Date;
@@ -20,9 +16,6 @@ export class OfferRdo {
 
   @Expose()
   public imagePreview: string;
-
-  @Expose()
-  public images: string[];
 
   @Expose()
   public isPremium: boolean;
@@ -37,20 +30,7 @@ export class OfferRdo {
   public type: HousingType;
 
   @Expose()
-  public bedrooms: number;
-
-  @Expose()
-  public maxAdults: number;
-
-  @Expose()
   public price: number;
-
-  @Expose()
-  public goods: string[];
-
-  @Expose({ name: 'hostId' })
-  @Type(() => UserRdo)
-  public host: UserRdo;
 
   @Expose()
   public reviewCount: number;

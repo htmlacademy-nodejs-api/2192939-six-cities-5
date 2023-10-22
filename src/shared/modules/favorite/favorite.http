@@ -1,0 +1,11 @@
+# Избранные предложения
+## Изменить статус избранного предложения
+
+POST http://localhost:5000/favorite/65333e0e9df1da5dca706694/1 HTTP/1.1
+Content-Type: application/json
+
+###
+
+## Получить список избранных предложений
+GET  http://localhost:5000/favorite HTTP/1.1
+Content-Type: application/json

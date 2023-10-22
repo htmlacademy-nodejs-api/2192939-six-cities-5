@@ -9,7 +9,6 @@ export type MockServerData = {
   locations: Location[];
   goods: string[];
   isPremium: number[];
-  isFavorite: number[];
   username: string[];
   email: string[];
   avatar: string[];

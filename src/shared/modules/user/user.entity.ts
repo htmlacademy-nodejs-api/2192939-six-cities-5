@@ -3,6 +3,7 @@ import {
   getModelForClass,
   prop,
   modelOptions,
+  Severity,
 } from '@typegoose/typegoose';
 import { User } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/index.js';
@@ -14,37 +15,35 @@ export interface UserEntity extends defaultClasses.Base {}
   schemaOptions: {
     collection: 'users',
   },
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     require: true,
-    // default: '',
-    // minlength: [1, 'Min length for username is 1'],
-    // maxlength: [15, 'Max length for username is 15'],
+    default: '',
+    minlength: [1, 'Min length for username is 1'],
+    maxlength: [15, 'Max length for username is 15'],
   })
   public username: string;
 
   @prop({
     unique: true,
     require: true,
-    // match: [
-    //   /^((([0-9A-Za-z]{1}[-0-9A-z\\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
-    //   'Email is incorrect',
-    // ],
   })
   public email: string;
 
   @prop({
     required: false,
-    // default: '',
-    // match: [/^(.+)(jpg|png)$/i, 'Avatar file is correct'],
+    default: '',
   })
   public avatar: string;
 
   @prop({
     require: true,
-    // default: '',
+    default: '',
   })
   private password?: string;
 
@@ -52,6 +51,9 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     require: true,
   })
   public isPro: boolean;
+
+  @prop({ require: true })
+  public favorites: string[];
 
   constructor(userData: User) {
     super();

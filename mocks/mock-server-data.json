@@ -123,7 +123,6 @@
       "Fridge"
     ],
     "isPremium": [0, 1],
-    "isFavorite": [0, 1],
     "username": ["Jhon", "Angelina", "Dow", "Jilly", "Dolly"],
     "email": [
       "post@post.com",

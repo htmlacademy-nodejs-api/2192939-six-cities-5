@@ -58,7 +58,7 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: { $avg: '$reviews.rating' },
+            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
             reviewCount: { $size: '$reviews' },
           },
         },
@@ -97,7 +97,7 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: { $avg: '$reviews.rating' },
+            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
             reviewCount: { $size: '$reviews' },
             hostId: { $arrayElemAt: ['$host', 0] },
           },
@@ -108,7 +108,7 @@ export class DefaultOfferService implements OfferService {
       .then((r) => r.at(0) || null);
   }
 
-  findPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
+  getPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.offerModel
       .aggregate([
         {
@@ -133,7 +133,7 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: { $avg: '$reviews.rating' },
+            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
             reviewCount: { $size: '$reviews' },
           },
         },
@@ -141,23 +141,6 @@ export class DefaultOfferService implements OfferService {
         { $limit: DEFAULT_PREMIUM_OFFER_COUNT },
         { $sort: { createdAt: SortType.Down } },
       ])
-      .exec();
-  }
-
-  findFavorites(): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.offerModel.find({ isFavorite: true }).exec();
-  }
-
-  updateFavoriteById(
-    offerId: string,
-    status: number
-  ): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(
-        offerId,
-        { isFavorite: Boolean(status) },
-        { new: true }
-      )
       .exec();
   }
 
