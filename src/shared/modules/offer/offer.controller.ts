@@ -8,6 +8,7 @@ import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { ParamOfferId } from './types/param-offerid.type.js';
@@ -35,21 +36,25 @@ export class OfferController extends BaseController {
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/:offerId/reviews',
       method: HttpMethod.Get,
       handler: this.getReviews,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/:cityName/premium',

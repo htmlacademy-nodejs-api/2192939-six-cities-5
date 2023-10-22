@@ -1,5 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { BaseController, HttpMethod } from '../../libs/rest/index.js';
+import {
+  BaseController,
+  HttpMethod,
+  ValidateObjectIdMiddleware,
+} from '../../libs/rest/index.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { FavoriteService } from './index.js';
@@ -22,6 +26,7 @@ export class FavoriteController extends BaseController {
       path: '/:offerId/:status',
       method: HttpMethod.Post,
       handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
   }
 
