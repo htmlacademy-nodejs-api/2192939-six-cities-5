@@ -5,7 +5,7 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
-import { CreateUserMessages } from '../index.js';
+import { CreateUserMessages } from './create-user.message.js';
 
 export class CreateUserDto {
   @Length(1, 15, { message: CreateUserMessages.username.invalidName })
@@ -16,7 +16,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @MaxLength(256, { message: CreateUserMessages.avatar.invalid })
-  public avatar?: string;
+  public avatar: string;
 
   @Length(6, 12, { message: CreateUserMessages.password.invalidPassword })
   public password: string;

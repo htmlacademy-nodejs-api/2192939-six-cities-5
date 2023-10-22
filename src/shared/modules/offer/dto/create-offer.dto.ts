@@ -13,7 +13,7 @@ import {
   IsMongoId,
 } from 'class-validator';
 import { City, HousingType, Location } from '../../../types/index.js';
-import { CreateOfferValidationMessage } from '../index.js';
+import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
 export class CreateOfferDto {
   @Length(10, 100, { message: CreateOfferValidationMessage.title.length })
