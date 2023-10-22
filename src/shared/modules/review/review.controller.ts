@@ -1,8 +1,10 @@
+import { CreateReviewDto } from './index.js';
 import { inject, injectable } from 'inversify';
 import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateDtoMiddleware,
 } from '../../libs/rest/index.js';
 import { Component } from '../../types/component.enum.js';
 import { ReviewService } from './index.js';
@@ -25,7 +27,12 @@ export default class ReviewController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for CommentController...');
-    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateReviewDto)],
+    });
   }
 
   public async create(

@@ -7,3 +7,5 @@ export * from './dto/update-offer.dto.js';
 export * from './offer.controller.js';
 export * from './rdo/offer.rdo.js';
 export * from './rdo/offers.rdo.js';
+export * from './dto/create-offer.messages.js';
+export * from './dto/update-offer.messages.js';

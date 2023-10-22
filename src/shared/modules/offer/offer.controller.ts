@@ -2,12 +2,19 @@ import { inject, injectable } from 'inversify';
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
 import { Request, Response } from 'express';
-import { OfferRdo, OffersRdo, OfferService, UpdateOfferDto } from './index.js';
+import {
+  OfferRdo,
+  OffersRdo,
+  OfferService,
+  UpdateOfferDto,
+  CreateOfferDto,
+} from './index.js';
 import { fillDTO } from '../../helpers/common.js';
 import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
 import { StatusCodes } from 'http-status-codes';
@@ -30,7 +37,12 @@ export class OfferController extends BaseController {
 
     this.logger.info('Register routes for OfferController...');
 
-    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)],
+    });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({
       path: '/:offerId',
@@ -48,7 +60,10 @@ export class OfferController extends BaseController {
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(UpdateOfferDto),
+      ],
     });
     this.addRoute({
       path: '/:offerId/reviews',
