@@ -23,12 +23,14 @@ export class DefaultFavoriteService implements FavoriteService {
     /**
      * Константу нужно будет убрать, когда изучим авторизацию
      */
-    const userId = '65333a4da8c0da8fc5a6a10a';
+    const userId = '65333e0e9df1da5dca706697';
     await this.userModel
       .updateOne(
         { _id: userId },
         {
-          [`$${status === '1' ? 'push' : 'pull'}`]: { favorites: offerId },
+          [`$${status === '1' ? 'push' : 'pull'}`]: {
+            favorites: offerId,
+          },
         }
       )
       .exec();
@@ -44,7 +46,7 @@ export class DefaultFavoriteService implements FavoriteService {
     /**
      * Константу нужно будет убрать, когда изучим авторизацию
      */
-    const userId = '65333a4da8c0da8fc5a6a10a';
+    const userId = '65333e0e9df1da5dca706697';
     const { favorites } = (await this.userModel
       .findById(userId)
       .exec()) as UserEntity;

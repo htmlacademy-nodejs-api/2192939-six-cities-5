@@ -57,12 +57,34 @@ export class DefaultOfferService implements OfferService {
           },
         },
         {
+          $lookup: {
+            from: 'users',
+            let: { offerId: '$_id' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: { $in: [{ $toString: '$$offerId' }, '$favorites'] },
+                },
+              },
+              { $project: { _id: 1 } },
+            ],
+            as: 'users',
+          },
+        },
+        {
           $addFields: {
+            isFavorite: {
+              $cond: {
+                if: { $in: ['$hostId', '$users._id'] },
+                then: true,
+                else: false,
+              },
+            },
             rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
             reviewCount: { $size: '$reviews' },
           },
         },
-        { $unset: 'reviews' },
+        { $unset: ['reviews', 'users'] },
         { $limit: limit },
         { $sort: { createdAt: SortType.Down } },
       ])
@@ -75,16 +97,16 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel
       .aggregate([
         {
+          $match: {
+            _id: new mongoose.Types.ObjectId(offerId),
+          },
+        },
+        {
           $lookup: {
             from: 'reviews',
             localField: '_id',
             foreignField: 'offerId',
             as: 'reviews',
-          },
-        },
-        {
-          $match: {
-            _id: new mongoose.Types.ObjectId(offerId),
           },
         },
         {
@@ -97,7 +119,15 @@ export class DefaultOfferService implements OfferService {
         },
         {
           $addFields: {
-            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
+            rating: {
+              $cond: {
+                if: {
+                  $eq: [{ $round: [{ $avg: '$reviews.rating' }, 1] }, null],
+                },
+                then: 0,
+                else: { $round: [{ $avg: '$reviews.rating' }, 1] },
+              },
+            },
             reviewCount: { $size: '$reviews' },
             hostId: { $arrayElemAt: ['$host', 0] },
           },
@@ -113,14 +143,7 @@ export class DefaultOfferService implements OfferService {
       .aggregate([
         {
           $match: {
-            $and: [
-              {
-                'city.name': cityName,
-              },
-              {
-                isPremium: true,
-              },
-            ],
+            $and: [{ 'city.name': cityName }, { isPremium: true }],
           },
         },
         {

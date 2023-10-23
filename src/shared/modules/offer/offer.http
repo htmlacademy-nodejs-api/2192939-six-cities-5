@@ -6,7 +6,7 @@ Content-Type: application/json
 ###
 ## Получить предложение по идентификатору
 
-GET  http://localhost:5000/offers/652bc339a4b067f1c1aae1b3 HTTP/1.1
+GET  http://localhost:5000/offers/65333e0e9df1da5dca706699 HTTP/1.1
 
 ###
 ## Создать новое предложение
