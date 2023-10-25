@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { ObjectId } from 'mongoose';
 
 export class UserRdo {
   @Expose()
@@ -14,5 +15,5 @@ export class UserRdo {
   public isPro: boolean;
 
   @Expose()
-  public favorites: string[];
+  public favorites: ObjectId[];
 }

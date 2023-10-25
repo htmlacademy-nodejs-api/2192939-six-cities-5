@@ -2,7 +2,7 @@ import { CreateReviewDto } from './index.js';
 import { inject, injectable } from 'inversify';
 import {
   BaseController,
-  HttpError,
+  DocumentExistsMiddleware,
   HttpMethod,
   ValidateDtoMiddleware,
 } from '../../libs/rest/index.js';
@@ -12,7 +12,6 @@ import { OfferService } from '../offer/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { CreateReviewRequest } from './index.js';
 import { Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers/common.js';
 import { ReviewRdo } from './rdo/review.rdo.js';
 
@@ -31,7 +30,10 @@ export default class ReviewController extends BaseController {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateReviewDto)],
+      middlewares: [
+        new ValidateDtoMiddleware(CreateReviewDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
   }
 
@@ -39,14 +41,6 @@ export default class ReviewController extends BaseController {
     { body }: CreateReviewRequest,
     res: Response
   ): Promise<void> {
-    if (!(await this.offerService.exists(body.offerId))) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${body.offerId} not found`,
-        'ReviewController'
-      );
-    }
-
     const review = await this.reviewService.create(body);
     this.created(res, fillDTO(ReviewRdo, review));
   }
