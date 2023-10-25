@@ -22,6 +22,88 @@ export class DefaultOfferService implements OfferService {
     private readonly offerModel: types.ModelType<OfferEntity>
   ) {}
 
+  /**
+   * Вычисляет количество отзывов и рейтинг для предложения
+   */
+  private reviewsStage = [
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: '_id',
+        foreignField: 'offerId',
+        as: 'reviews',
+      },
+    },
+    {
+      $addFields: {
+        rating: {
+          $cond: {
+            if: {
+              $eq: [{ $round: [{ $avg: '$reviews.rating' }, 1] }, null],
+            },
+            then: 0,
+            else: { $round: [{ $avg: '$reviews.rating' }, 1] },
+          },
+        },
+        reviewCount: { $size: '$reviews' },
+      },
+    },
+    { $unset: 'reviews' },
+  ];
+
+  /**
+   * Определяет число пользователей, добавивших предложение в избранное
+   */
+  private favoriteStage = [
+    {
+      $lookup: {
+        from: 'users',
+        let: { offerId: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $in: [{ $toString: '$$offerId' }, '$favorites'] },
+            },
+          },
+          { $project: { _id: 1 } },
+        ],
+        as: 'users',
+      },
+    },
+    {
+      $addFields: {
+        isFavorite: {
+          $cond: {
+            if: { $in: ['$hostId', '$users._id'] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    { $unset: 'users' },
+  ];
+
+  /**
+   * Получает информацию об авторе предложения
+   */
+  private hostStage = [
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'hostId',
+        foreignField: '_id',
+        as: 'host',
+      },
+    },
+    {
+      $addFields: {
+        hostId: { $arrayElemAt: ['$host', 0] },
+      },
+    },
+    { $unset: 'host' },
+  ];
+
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
     const result = await this.offerModel.create(dto);
     this.logger.info(`New offer created: ${dto.title}`);
@@ -48,43 +130,8 @@ export class DefaultOfferService implements OfferService {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     return this.offerModel
       .aggregate([
-        {
-          $lookup: {
-            from: 'reviews',
-            localField: '_id',
-            foreignField: 'offerId',
-            as: 'reviews',
-          },
-        },
-        {
-          $lookup: {
-            from: 'users',
-            let: { offerId: '$_id' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: { $in: [{ $toString: '$$offerId' }, '$favorites'] },
-                },
-              },
-              { $project: { _id: 1 } },
-            ],
-            as: 'users',
-          },
-        },
-        {
-          $addFields: {
-            isFavorite: {
-              $cond: {
-                if: { $in: ['$hostId', '$users._id'] },
-                then: true,
-                else: false,
-              },
-            },
-            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
-            reviewCount: { $size: '$reviews' },
-          },
-        },
-        { $unset: ['reviews', 'users'] },
+        ...this.reviewsStage,
+        ...this.favoriteStage,
         { $limit: limit },
         { $sort: { createdAt: SortType.Down } },
       ])
@@ -101,38 +148,8 @@ export class DefaultOfferService implements OfferService {
             _id: new mongoose.Types.ObjectId(offerId),
           },
         },
-        {
-          $lookup: {
-            from: 'reviews',
-            localField: '_id',
-            foreignField: 'offerId',
-            as: 'reviews',
-          },
-        },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'hostId',
-            foreignField: '_id',
-            as: 'host',
-          },
-        },
-        {
-          $addFields: {
-            rating: {
-              $cond: {
-                if: {
-                  $eq: [{ $round: [{ $avg: '$reviews.rating' }, 1] }, null],
-                },
-                then: 0,
-                else: { $round: [{ $avg: '$reviews.rating' }, 1] },
-              },
-            },
-            reviewCount: { $size: '$reviews' },
-            hostId: { $arrayElemAt: ['$host', 0] },
-          },
-        },
-        { $unset: ['reviews', 'host'] },
+        ...this.reviewsStage,
+        ...this.hostStage,
       ])
       .exec()
       .then((r) => r.at(0) || null);
@@ -146,21 +163,8 @@ export class DefaultOfferService implements OfferService {
             $and: [{ 'city.name': cityName }, { isPremium: true }],
           },
         },
-        {
-          $lookup: {
-            from: 'reviews',
-            localField: '_id',
-            foreignField: 'offerId',
-            as: 'reviews',
-          },
-        },
-        {
-          $addFields: {
-            rating: { $round: [{ $avg: '$reviews.rating' }, 1] },
-            reviewCount: { $size: '$reviews' },
-          },
-        },
-        { $unset: 'reviews' },
+        ...this.reviewsStage,
+        ...this.favoriteStage,
         { $limit: DEFAULT_PREMIUM_OFFER_COUNT },
         { $sort: { createdAt: SortType.Down } },
       ])
