@@ -12,6 +12,7 @@ export type RestSchema = {
   DB_PORT: string;
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
+  JWT_SECRET:string;
 };
 
 /**Необходима для валидации входных данных приложения */
@@ -68,4 +69,10 @@ export const configRestSchema = convict<RestSchema>({
     env: 'UPLOAD_DIRECTORY',
     default: null,
   },
+  JWT_SECRET:{
+    doc:'Secret for sign JWT',
+    format: String,
+    env: 'JWT_SECRET',
+    default: null
+  }
 });

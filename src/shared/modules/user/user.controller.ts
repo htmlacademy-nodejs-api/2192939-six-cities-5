@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/index.js';
 import { CreateUserDto, LoginUserDto } from './index.js';
 import { UserService } from './index.js';
 import { inject, injectable } from 'inversify';
@@ -18,13 +19,15 @@ import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserTypeRequest } from './login-user-login.type.js';
+import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 
 @injectable()
 export class UserController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.UserService) private readonly userService: UserService,
-    @inject(Component.Config) private readonly configService: Config<RestSchema>
+    @inject(Component.Config) private readonly configService: Config<RestSchema>,
+    @inject(Component.AuthService) private readonly authService: AuthService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController...');
@@ -76,30 +79,19 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRdo, result));
   }
 
-  public async login(
-    { body }: LoginUserTypeRequest,
-    _res: Response
-  ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
-
-    if (!existsUser) {
-      throw new HttpError(
-        StatusCodes.UNAUTHORIZED,
-        `User with email «${body.email}» not found`,
-        'UserController'
-      );
-    }
-
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
-  }
-
   public async uploadAvatar(req: Request, res: Response) {
     this.created(res, {
       filepath: req.file?.path,
     });
+  }
+
+  public async login(
+    {body}:LoginUserTypeRequest,
+    res:Response
+  ):Promise<void>{
+    const user = await this.authService.verify(body)
+    const token=await this.authService.authenticate(user)
+    const responseData=fillDTO(LoggedUserRdo,{email:user.email,token})
+    this.ok(res,responseData)
   }
 }

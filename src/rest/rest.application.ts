@@ -31,7 +31,8 @@ export class RestApplication {
     @inject(Component.ReviewController)
     private readonly reviewController: ReviewController,
     @inject(Component.FavoriteController)
-    private readonly favoriteController: FavoriteController
+    private readonly favoriteController: FavoriteController,
+    @inject(Component.AuthExceptionFilter) private readonly authExceptionFilter: ExceptionFilter
   ) {
     this.server = express();
   }
@@ -73,6 +74,7 @@ export class RestApplication {
   }
 
   private async _initExceptionFilter() {
+    this.server.use(this.authExceptionFilter.catch.bind(this.authExceptionFilter));
     this.server.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
   }
 

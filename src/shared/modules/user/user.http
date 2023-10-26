@@ -6,10 +6,10 @@ Content-Type: application/json
 
 {
    "username": "Morgan",
-   "email": "morgan3@gmail.com",
+   "email": "morgan@gmail.com",
    "avatar": "avatar-1.jpg",
    "password": "morgan",
-   "isPro": true,
+   "isPro": true
 }
 
 ###
