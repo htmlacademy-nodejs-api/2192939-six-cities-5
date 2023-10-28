@@ -18,12 +18,9 @@ export class DefaultFavoriteService implements FavoriteService {
 
   public async setFavoriteById(
     offerId: string,
-    status: string
+    status: string,
+    userId: string
   ): Promise<types.DocumentType<OfferEntity> | null> {
-    /**
-     * Константу нужно будет убрать, когда изучим авторизацию
-     */
-    const userId = '65333e0e9df1da5dca706697';
     await this.userModel
       .updateOne(
         { _id: userId },

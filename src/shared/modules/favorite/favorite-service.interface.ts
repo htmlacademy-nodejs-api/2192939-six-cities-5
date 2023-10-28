@@ -11,6 +11,7 @@ export interface FavoriteService {
    */
   setFavoriteById(
     offerId: string,
-    status: string
+    status: string,
+    userId: string
   ): Promise<DocumentType<OfferEntity> | null>;
 }
