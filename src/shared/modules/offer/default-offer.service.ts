@@ -74,7 +74,7 @@ export class DefaultOfferService implements OfferService {
       $addFields: {
         isFavorite: {
           $cond: {
-            if: { $in: ['$hostId', '$users._id'] },
+            if: { $in: ['$userId', '$users._id'] },
             then: true,
             else: false,
           },

@@ -56,6 +56,11 @@ export class UserController extends BaseController {
         ),
       ],
     });
+    this.addRoute({
+      path:'/login',
+      method:HttpMethod.Get,
+      handler:this.checkAuthenticate,
+    })
   }
 
   public async create(
@@ -93,5 +98,19 @@ export class UserController extends BaseController {
     const token=await this.authService.authenticate(user)
     const responseData=fillDTO(LoggedUserRdo,{email:user.email,token})
     this.ok(res,responseData)
+  }
+
+  public async checkAuthenticate({tokenPayload:{email}}:Request,res:Response){
+    const foundUser=await this.userService.findByEmail(email);
+
+    if(!foundUser){
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      )
+    }
+
+    this.ok(res,fillDTO(LoggedUserRdo,foundUser))
   }
 }

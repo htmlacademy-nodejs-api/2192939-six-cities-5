@@ -4,6 +4,7 @@ import {
   BaseController,
   DocumentExistsMiddleware,
   HttpMethod,
+  PrivateRouteMiddleware,
   ValidateDtoMiddleware,
 } from '../../libs/rest/index.js';
 import { Component } from '../../types/component.enum.js';
@@ -31,6 +32,7 @@ export default class ReviewController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateReviewDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -38,10 +40,13 @@ export default class ReviewController extends BaseController {
   }
 
   public async create(
-    { body }: CreateReviewRequest,
+    { body, tokenPayload }: CreateReviewRequest,
     res: Response
   ): Promise<void> {
-    const review = await this.reviewService.create(body);
+    const review = await this.reviewService.create({
+      ...body,
+      userId: tokenPayload.id,
+    });
     this.created(res, fillDTO(ReviewRdo, review));
   }
 }

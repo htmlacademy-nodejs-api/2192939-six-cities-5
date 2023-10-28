@@ -14,6 +14,5 @@ export class CreateReviewDto {
   @IsMongoId({ message: CreateReviewDtoMessages.userId.invalidFormat })
   public userId: string;
 
-  @IsMongoId({ message: CreateReviewDtoMessages.offerId.invalidFormat })
   public offerId: string;
 }
