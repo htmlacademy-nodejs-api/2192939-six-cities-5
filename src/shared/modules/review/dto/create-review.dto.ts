@@ -11,8 +11,8 @@ export class CreateReviewDto {
   @Max(5, { message: CreateReviewDtoMessages.rating.maxValue })
   public rating: number;
 
-  @IsMongoId({ message: CreateReviewDtoMessages.userId.invalidFormat })
   public userId: string;
 
+  @IsMongoId({ message: CreateReviewDtoMessages.offerId.invalidFormat })
   public offerId: string;
 }

@@ -66,6 +66,7 @@ export class FavoriteController extends BaseController {
         'FavoriteController'
       );
     }
+
     if (!favoriteExists && status === '0') {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
