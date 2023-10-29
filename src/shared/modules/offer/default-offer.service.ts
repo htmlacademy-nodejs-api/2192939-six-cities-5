@@ -54,35 +54,37 @@ export class DefaultOfferService implements OfferService {
   /**
    * Определяет число пользователей, добавивших предложение в избранное
    */
-  private favoriteStage = [
-    {
-      $lookup: {
-        from: 'users',
-        let: { offerId: '$_id' },
-        pipeline: [
-          {
-            $match: {
-              $expr: { $in: [{ $toString: '$$offerId' }, '$favorites'] },
+  private async favoriteStage(userId: string | undefined) {
+    return [
+      {
+        $lookup: {
+          from: 'users',
+          let: { offerId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $in: [{ $toString: '$$offerId' }, '$favorites'] },
+              },
             },
-          },
-          { $project: { _id: 1 } },
-        ],
-        as: 'users',
+            { $project: { _id: 1 } },
+          ],
+          as: 'users',
+        },
       },
-    },
-    {
-      $addFields: {
-        isFavorite: {
-          $cond: {
-            if: { $in: ['$userId', '$users._id'] },
-            then: true,
-            else: false,
+      {
+        $addFields: {
+          isFavorite: {
+            $cond: {
+              if: { $in: [new mongoose.Types.ObjectId(userId), '$users._id'] },
+              then: true,
+              else: false,
+            },
           },
         },
       },
-    },
-    { $unset: 'users' },
-  ];
+      { $unset: 'users' },
+    ];
+  }
 
   /**
    * Получает информацию об авторе предложения
@@ -126,12 +128,15 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.findByIdAndDelete(offerId).exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  public async find(
+    userId: string,
+    count?: number
+  ): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     return this.offerModel
       .aggregate([
         ...this.reviewsStage,
-        ...this.favoriteStage,
+        ...(await this.favoriteStage(userId)),
         { $limit: limit },
         { $sort: { createdAt: SortType.Down } },
       ])
@@ -139,7 +144,8 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async findById(
-    offerId: string
+    offerId: string,
+    userId?: string
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .aggregate([
@@ -150,12 +156,16 @@ export class DefaultOfferService implements OfferService {
         },
         ...this.reviewsStage,
         ...this.hostStage,
+        ...(await this.favoriteStage(userId)),
       ])
       .exec()
       .then((r) => r.at(0) || null);
   }
 
-  getPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
+  public async getPremium(
+    cityName: string,
+    userId: string
+  ): Promise<DocumentType<OfferEntity>[] | null> {
     return this.offerModel
       .aggregate([
         {
@@ -164,7 +174,7 @@ export class DefaultOfferService implements OfferService {
           },
         },
         ...this.reviewsStage,
-        ...this.favoriteStage,
+        ...(await this.favoriteStage(userId)),
         { $limit: DEFAULT_PREMIUM_OFFER_COUNT },
         { $sort: { createdAt: SortType.Down } },
       ])

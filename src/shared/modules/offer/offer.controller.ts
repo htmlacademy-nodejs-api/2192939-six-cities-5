@@ -93,8 +93,10 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async index(req: Request, res: Response): Promise<void> {
+    const userId = req.tokenPayload?.id;
+
+    const offers = await this.offerService.find(userId);
     this.ok(res, fillDTO(OffersRdo, offers));
   }
 
@@ -110,12 +112,10 @@ export class OfferController extends BaseController {
     this.created(res, fillDTO(OfferRdo, offer));
   }
 
-  public async show(
-    { params }: Request<ParamOfferId>,
-    res: Response
-  ): Promise<void> {
-    const { offerId } = params;
-    const offer = await this.offerService.findById(offerId);
+  public async show(req: Request<ParamOfferId>, res: Response): Promise<void> {
+    const { offerId } = req.params;
+    const userId = req.tokenPayload?.id;
+    const offer = await this.offerService.findById(offerId, userId);
 
     this.ok(res, fillDTO(OfferRdo, offer));
   }
@@ -153,10 +153,12 @@ export class OfferController extends BaseController {
   }
 
   public async getPremium(
-    { params }: Request<ParamCityName>,
+    req: Request<ParamCityName>,
     res: Response
   ): Promise<void> {
-    const premium = await this.offerService.getPremium(params.cityName);
+    const { cityName } = req.params;
+    const userId = req.tokenPayload?.id;
+    const premium = await this.offerService.getPremium(cityName, userId);
     this.ok(res, fillDTO(OffersRdo, premium));
   }
 }
