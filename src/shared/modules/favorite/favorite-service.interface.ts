@@ -5,7 +5,7 @@ export interface FavoriteService {
   /**
    * Получение списка предложений, добавленных в избранное
    */
-  getFavorites(): Promise<DocumentType<OfferEntity>[] | null>;
+  getFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null>;
   /**
    * Добавление/удаление предложения в/из избранное
    */

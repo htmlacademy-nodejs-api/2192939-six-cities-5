@@ -42,8 +42,9 @@ export class FavoriteController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.favoriteService.getFavorites();
+  public async index(req: Request, res: Response): Promise<void> {
+    const userId = req.tokenPayload.id;
+    const offers = await this.favoriteService.getFavorites(userId);
 
     this.ok(res, fillDTO(OffersRdo, offers));
   }
@@ -65,6 +66,13 @@ export class FavoriteController extends BaseController {
         'FavoriteController'
       );
     }
+    if (!favoriteExists && status === '0') {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id «${offerId}» not found`,
+        'FavoriteController'
+      );
+    }
 
     const offer = await this.favoriteService.setFavoriteById(
       offerId,
@@ -72,6 +80,10 @@ export class FavoriteController extends BaseController {
       userId
     );
 
-    this.ok(res, fillDTO(OfferRdo, offer));
+    if (status === '1') {
+      this.created(res, fillDTO(OfferRdo, offer));
+    } else {
+      this.ok(res, fillDTO(OfferRdo, offer));
+    }
   }
 }
