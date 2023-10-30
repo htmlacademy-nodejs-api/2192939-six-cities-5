@@ -14,6 +14,7 @@ import {
   BaseController,
   DocumentExistsMiddleware,
   HttpMethod,
+  PrivateRouteMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
@@ -40,7 +41,10 @@ export class OfferController extends BaseController {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)],
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto),
+      ],
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({
@@ -57,6 +61,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -66,6 +71,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -87,26 +93,29 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async index(req: Request, res: Response): Promise<void> {
+    const userId = req.tokenPayload?.id;
+
+    const offers = await this.offerService.find(userId);
     this.ok(res, fillDTO(OffersRdo, offers));
   }
 
   public async create(
-    { body }: CreateOfferRequest,
+    { body, tokenPayload }: CreateOfferRequest,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create(body);
+    const result = await this.offerService.create({
+      ...body,
+      hostId: tokenPayload.id,
+    });
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferRdo, offer));
   }
 
-  public async show(
-    { params }: Request<ParamOfferId>,
-    res: Response
-  ): Promise<void> {
-    const { offerId } = params;
-    const offer = await this.offerService.findById(offerId);
+  public async show(req: Request<ParamOfferId>, res: Response): Promise<void> {
+    const { offerId } = req.params;
+    const userId = req.tokenPayload?.id;
+    const offer = await this.offerService.findById(offerId, userId);
 
     this.ok(res, fillDTO(OfferRdo, offer));
   }
@@ -144,10 +153,12 @@ export class OfferController extends BaseController {
   }
 
   public async getPremium(
-    { params }: Request<ParamCityName>,
+    req: Request<ParamCityName>,
     res: Response
   ): Promise<void> {
-    const premium = await this.offerService.getPremium(params.cityName);
+    const { cityName } = req.params;
+    const userId = req.tokenPayload?.id;
+    const premium = await this.offerService.getPremium(cityName, userId);
     this.ok(res, fillDTO(OffersRdo, premium));
   }
 }

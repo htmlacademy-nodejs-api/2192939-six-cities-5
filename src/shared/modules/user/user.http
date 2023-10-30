@@ -6,10 +6,10 @@ Content-Type: application/json
 
 {
    "username": "Morgan",
-   "email": "morgan3@gmail.com",
+   "email": "morgan@gmail.com",
    "avatar": "avatar-1.jpg",
    "password": "morgan",
-   "isPro": true,
+   "isPro": true
 }
 
 ###
@@ -39,4 +39,11 @@ Content-Type: image/png
 < \web-projects\candles\images\section-decor.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-##
+###
+
+## Проверить токен пользователя
+
+GET http://localhost:5000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1M2E2NTY0OWU0MjYzMDg4ZDBjZjFkZSIsImlhdCI6MTY5ODQwODUxMywiZXhwIjoxNjk4NTgxMzEzfQ.atuKZJvWO9sXRWh4-KHEzLHRQMLNS5UaeGyfHbqhlXU
+
+###

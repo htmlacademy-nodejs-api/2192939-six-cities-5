@@ -5,12 +5,13 @@ export interface FavoriteService {
   /**
    * Получение списка предложений, добавленных в избранное
    */
-  getFavorites(): Promise<DocumentType<OfferEntity>[] | null>;
+  getFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null>;
   /**
    * Добавление/удаление предложения в/из избранное
    */
   setFavoriteById(
     offerId: string,
-    status: string
+    status: string,
+    userId: string
   ): Promise<DocumentType<OfferEntity> | null>;
 }

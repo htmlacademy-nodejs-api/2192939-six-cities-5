@@ -2,8 +2,9 @@ import { CreateReviewDto } from './index.js';
 import { inject, injectable } from 'inversify';
 import {
   BaseController,
-  DocumentExistsMiddleware,
+  HttpError,
   HttpMethod,
+  PrivateRouteMiddleware,
   ValidateDtoMiddleware,
 } from '../../libs/rest/index.js';
 import { Component } from '../../types/component.enum.js';
@@ -14,6 +15,7 @@ import { CreateReviewRequest } from './index.js';
 import { Response } from 'express';
 import { fillDTO } from '../../helpers/common.js';
 import { ReviewRdo } from './rdo/review.rdo.js';
+import { StatusCodes } from 'http-status-codes';
 
 @injectable()
 export default class ReviewController extends BaseController {
@@ -31,17 +33,28 @@ export default class ReviewController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateReviewDto),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
   }
 
   public async create(
-    { body }: CreateReviewRequest,
+    { body, tokenPayload }: CreateReviewRequest,
     res: Response
   ): Promise<void> {
-    const review = await this.reviewService.create(body);
+    if (!(await this.offerService.exists(body.offerId))) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${body.offerId} not found.`,
+        'CommentController'
+      );
+    }
+
+    const review = await this.reviewService.create({
+      ...body,
+      userId: tokenPayload.id,
+    });
     this.created(res, fillDTO(ReviewRdo, review));
   }
 }

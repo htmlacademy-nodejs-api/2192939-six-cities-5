@@ -10,10 +10,10 @@ import {
   IsInt,
   Min,
   Max,
-  IsMongoId,
 } from 'class-validator';
-import { City, HousingType, Location } from '../../../types/index.js';
+import { City, HousingType } from '../../../types/index.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
+import { LocationDto } from './location-offer.dto.js';
 
 export class CreateOfferDto {
   @Length(10, 100, { message: CreateOfferValidationMessage.title.length })
@@ -69,11 +69,10 @@ export class CreateOfferDto {
   @IsArray({ message: CreateOfferValidationMessage.goods.invalidType })
   public goods: string[];
 
-  @IsMongoId({ message: CreateOfferValidationMessage.hostId.invalidType })
   public hostId: string;
 
   @ValidateNested({
     message: CreateOfferValidationMessage.location.invalidType,
   })
-  public location: Location;
+  public location: LocationDto;
 }

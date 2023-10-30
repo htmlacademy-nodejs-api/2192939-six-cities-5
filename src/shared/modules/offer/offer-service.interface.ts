@@ -21,15 +21,21 @@ export interface OfferService extends DocumentExists {
   /**
    * Получение списка предложений по аренде
    */
-  find(): Promise<DocumentType<OfferEntity>[]>;
+  find(userId: string): Promise<DocumentType<OfferEntity>[]>;
   /**
    * Получение детальной информации о предложении
    */
-  findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  findById(
+    offerId: string,
+    userId?: string
+  ): Promise<DocumentType<OfferEntity> | null>;
   /**
    * Получение списка премиальных предложений для города
    */
-  getPremium(cityName: string): Promise<DocumentType<OfferEntity>[] | null>;
+  getPremium(
+    cityName: string,
+    userId: string | undefined
+  ): Promise<DocumentType<OfferEntity>[] | null>;
   /**
    * Проверяет существование записи в БД
    */

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
 import { FavoriteService } from './index.js';
 import { Component } from '../../types/index.js';
@@ -16,14 +17,31 @@ export class DefaultFavoriteService implements FavoriteService {
     private readonly userModel: types.ModelType<UserEntity>
   ) {}
 
+  /**
+   * Получает информацию об авторе предложения
+   */
+  private hostStage = [
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'hostId',
+        foreignField: '_id',
+        as: 'host',
+      },
+    },
+    {
+      $addFields: {
+        hostId: { $arrayElemAt: ['$host', 0] },
+      },
+    },
+    { $unset: 'host' },
+  ];
+
   public async setFavoriteById(
     offerId: string,
-    status: string
+    status: string,
+    userId: string
   ): Promise<types.DocumentType<OfferEntity> | null> {
-    /**
-     * Константу нужно будет убрать, когда изучим авторизацию
-     */
-    const userId = '65333e0e9df1da5dca706697';
     await this.userModel
       .updateOne(
         { _id: userId },
@@ -37,20 +55,45 @@ export class DefaultFavoriteService implements FavoriteService {
 
     this.logger.info(`Add or remove offer ${offerId} of user ${userId}`);
 
-    return this.offerModel.findById(offerId).populate(['hostId']).exec();
+    return this.offerModel
+      .aggregate([
+        {
+          $match: {
+            _id: new mongoose.Types.ObjectId(offerId),
+          },
+        },
+        {
+          $addFields: {
+            isFavorite: {
+              $cond: {
+                if: { $eq: [status, '1'] },
+                then: true,
+                else: false,
+              },
+            },
+          },
+        },
+        ...this.hostStage,
+      ])
+      .exec()
+      .then((r) => r.at(0) || null);
   }
 
-  public async getFavorites(): Promise<
-    types.DocumentType<OfferEntity>[] | null
-  > {
-    /**
-     * Константу нужно будет убрать, когда изучим авторизацию
-     */
-    const userId = '65333e0e9df1da5dca706697';
+  public async getFavorites(
+    userId: string
+  ): Promise<types.DocumentType<OfferEntity>[] | null> {
     const { favorites } = (await this.userModel
       .findById(userId)
       .exec()) as UserEntity;
 
-    return this.offerModel.find({ _id: { $in: favorites } });
+    const favoriteOffers = await this.offerModel.find({
+      _id: { $in: favorites },
+    });
+
+    favoriteOffers.forEach((favoriteOffer) => {
+      Object.assign(favoriteOffer, { isFavorite: true });
+    });
+
+    return favoriteOffers;
   }
 }
