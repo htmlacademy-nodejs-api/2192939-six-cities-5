@@ -43,6 +43,6 @@ export const UpdateOfferValidationMessage = {
     invalidType: 'Должен быть правильный идентификатор',
   },
   location: {
-    invalidType: 'Должен быть объект',
+    invalidType: 'Долгота или широта должны быть числами',
   },
 };

@@ -25,6 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1M2E2NTY0OWU0MjYzMDg4ZDBjZjFkZSIsImlhdCI6MTY5ODU4NTE2OSwiZXhwIjoxNjk4NzU3OTY5fQ.Fuqi7__JGbIpF2dxo8cdl0khvQTEb5hhJ3frmW05d2I
 
 {
   "title": "Nice, cozy, warm big bed apartment",
