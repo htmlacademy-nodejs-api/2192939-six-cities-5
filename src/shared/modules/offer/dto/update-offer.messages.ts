@@ -1,48 +1,49 @@
 export const UpdateOfferValidationMessage = {
   title: {
-    length: 'Мин. длина 10 символов, макс. длина 100',
+    length: 'Min. length 10 characters, max. length 100',
   },
   description: {
-    length: 'Мин. длина 20 символов, макс. длина 1024 символа',
+    length: 'Min. length 20 characters, max. length 1024 characters',
   },
   city: {
-    invalid: 'Должен быть один из шести городов',
+    invalid: 'Must be one of six cities',
   },
   imagePreview: {
-    maxLength: 'Длина строки не должна превышать 256 символов',
+    maxLength: 'Line length must not exceed 256 characters',
   },
   images: {
-    length: 'Должно быть 6 фотографий',
-    invalidType: 'Должен быть массив строк',
+    length: 'Must be 6 photos',
+    invalidType: 'Must be an array of strings',
   },
   isPremium: {
-    invalidFormat: 'Должно быть логическим значением',
+    invalidFormat: 'Must be a boolean',
   },
   type: {
-    invalid: 'Должно быть одно из значений: apartment, house, room, hotel',
+    invalid:
+      'Must be one of the following values: apartment, house, room, hotel',
   },
   bedrooms: {
-    invalidFormat: 'Должно быть целое число',
-    minValue: 'Минимальное значение 1',
-    maxValue: 'Максимальное значение 8',
+    invalidFormat: 'Must be an integer',
+    minValue: 'Minimum value 1',
+    maxValue: 'Maximum value 8',
   },
   maxAdults: {
-    invalidFormat: 'Должно быть целое число',
-    minValue: 'Минимальное значение 1',
-    maxValue: 'Максимальное значение 10',
+    invalidFormat: 'Must be an integer',
+    minValue: 'Minimum value 1',
+    maxValue: 'Maximum value 10',
   },
   price: {
-    invalidFormat: 'Должно быть целое число',
-    minValue: 'Минимальное значение 100',
-    maxValue: 'Максимальное значение 100000',
+    invalidFormat: 'Must be an integer',
+    minValue: 'Minimum value 100',
+    maxValue: 'Maximum value 100000',
   },
   goods: {
-    invalidType: 'Должен быть массив строк',
+    invalidType: 'Must be an array of strings',
   },
   hostId: {
-    invalidType: 'Должен быть правильный идентификатор',
+    invalidType: 'Must be a valid ID',
   },
   location: {
-    invalidType: 'Долгота или широта должны быть числами',
+    invalidType: 'Longitude or latitude must be numbers',
   },
 };
