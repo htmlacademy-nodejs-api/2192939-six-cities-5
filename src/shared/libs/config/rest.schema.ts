@@ -12,7 +12,9 @@ export type RestSchema = {
   DB_PORT: string;
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
-  JWT_SECRET:string;
+  JWT_SECRET: string;
+  HOST: string;
+  STATIC_DIRECTORY_PATH: string;
 };
 
 /**Необходима для валидации входных данных приложения */
@@ -69,10 +71,22 @@ export const configRestSchema = convict<RestSchema>({
     env: 'UPLOAD_DIRECTORY',
     default: null,
   },
-  JWT_SECRET:{
-    doc:'Secret for sign JWT',
+  JWT_SECRET: {
+    doc: 'Secret for sign JWT',
     format: String,
     env: 'JWT_SECRET',
-    default: null
-  }
+    default: null,
+  },
+  HOST: {
+    doc: 'Host were started service',
+    format: String,
+    env: 'HOST',
+    default: 'localhost',
+  },
+  STATIC_DIRECTORY_PATH: {
+    doc: 'Path to directory with static resources',
+    format: String,
+    env: 'STATIC_DIRECTORY_PATH',
+    default: 'static',
+  },
 });
