@@ -452,9 +452,6 @@ components:
                 longitude:
                   type: number
                   example: 4.351697
-                zoom:
-                  type: number
-                  example: 13
         imagePreview:
           type: string
           example: image-9.jpg
@@ -497,9 +494,6 @@ components:
             longitude:
               type: number
               example: 6.943974
-            zoom:
-              type: number
-              example: 16
 
     offer:
      type: object
@@ -529,9 +523,6 @@ components:
                 longitude:
                   type: number
                   example: 4.351697
-                zoom:
-                  type: number
-                  example: 13
         imagePreview:
           type: string
           example: image-9.jpg
@@ -577,9 +568,6 @@ components:
             longitude:
               type: number
               example: 6.943974
-            zoom:
-              type: number
-              example: 16
 
     offers:
      type: array
@@ -606,9 +594,6 @@ components:
                 longitude:
                   type: number
                   example: 4.351697
-                zoom:
-                  type: number
-                  example: 13
         imagePreview:
           type: string
           example: image-9.jpg
@@ -639,9 +624,6 @@ components:
             longitude:
               type: number
               example: 6.943974
-            zoom:
-              type: number
-              example: 16
 
     reviews:
      type: array

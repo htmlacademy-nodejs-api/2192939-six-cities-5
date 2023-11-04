@@ -12,8 +12,4 @@ export class LocationDto {
   @Type(() => Number)
   @IsLatitude({ message: CreateOfferValidationMessage.location.invalidType })
   public longitude: number;
-
-  @IsNumber()
-  @Type(() => Number)
-  public zoom: number;
 }

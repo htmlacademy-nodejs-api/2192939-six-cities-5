@@ -36,7 +36,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
     "location": {
       "latitude": 53.550341,
       "longitude": 10.000654,
-      "zoom": 13
     }
   },
   "imagePreview": "image-7.jpg",
@@ -64,7 +63,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
   "location": {
     "latitude": 50.916361,
     "longitude": 6.944974,
-    "zoom": 16
   }
 }
 
