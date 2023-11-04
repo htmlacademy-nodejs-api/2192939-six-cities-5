@@ -115,22 +115,25 @@ export class DefaultOfferService implements OfferService {
     return result;
   }
 
-  public async updateById(
-    offerId: string,
-    userId: string,
-    dto: UpdateOfferDto
-  ): Promise<DocumentType<OfferEntity> | null> {
+  private async isHostOffer(offerId: string, userId: string) {
     const offer = await this.findById(offerId);
-    const isHostOffer = String(offer?.hostId._id) === userId;
-    console.log(String(offer?.hostId._id) === userId);
 
-    if (!isHostOffer) {
+    if (!(String(offer?.hostId._id) === userId)) {
       throw new HttpError(
         StatusCodes.FORBIDDEN,
         'Forbidden',
         'DefaultOfferService'
       );
     }
+  }
+
+  public async updateById(
+    offerId: string,
+    userId: string,
+    dto: UpdateOfferDto
+  ): Promise<DocumentType<OfferEntity> | null> {
+    this.isHostOffer(offerId, userId);
+
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
       .exec();
@@ -140,17 +143,8 @@ export class DefaultOfferService implements OfferService {
     offerId: string,
     userId: string
   ): Promise<DocumentType<OfferEntity> | null> {
-    const offer = await this.findById(offerId);
-    const isHostOffer = String(offer?.hostId._id) === userId;
-    console.log(String(offer?.hostId._id) === userId);
+    this.isHostOffer(offerId, userId);
 
-    if (!isHostOffer) {
-      throw new HttpError(
-        StatusCodes.FORBIDDEN,
-        'Forbidden',
-        'DefaultOfferService'
-      );
-    }
     return this.offerModel.findByIdAndDelete(offerId).exec();
   }
 
