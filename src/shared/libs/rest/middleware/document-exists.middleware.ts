@@ -17,7 +17,6 @@ export class DocumentExistsMiddleware implements Middleware {
     next: NextFunction
   ): Promise<void> {
     const documentId = params[this.paramName];
-    console.log(documentId);
 
     if (!(await this.service.exists(documentId))) {
       throw new HttpError(

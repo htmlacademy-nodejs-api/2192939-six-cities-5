@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1M2E2NTY0OWU0MjYzMDg4ZDBjZjFkZSIsImlhdCI6MTY5ODU4NTE2OSwiZXhwIjoxNjk4NzU3OTY5fQ.Fuqi7__JGbIpF2dxo8cdl0khvQTEb5hhJ3frmW05d2I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1NDYwNzM5NzJlMzdiN2YxMzcxOWZhMyIsImlhdCI6MTY5OTA4ODE5OCwiZXhwIjoxNjk5MjYwOTk4fQ.PuV5q-n-f-vcRqAdr3EbIPTVdkKcjIrtAVycQLrRNPI
 
 {
   "title": "Nice, cozy, warm big bed apartment",
@@ -71,16 +71,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 ###
 ## Удалить выбранное предложение по идентификатору
 
-DELETE http://localhost:5000/offers/652bc339a4b067f1c1aae1b8 HTTP/1.1
+DELETE http://localhost:5000/offers/6546078a72e37b7f13719fa6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1NDYwNzM5NzJlMzdiN2YxMzcxOWZhMyIsImlhdCI6MTY5OTEwMjYzMiwiZXhwIjoxNjk5Mjc1NDMyfQ.uM1PsEbgER1c8yhTOOp4pmsp0gb1wHCVQsOJJznZbZ8
 
 ###
 ## Обновить выбранное предложение
 
-PATCH  http://localhost:5000/offers/652bc339a4b067f1c1aae1b8 HTTP/11.1
+PATCH  http://localhost:5000/offers/6546078a72e37b7f13719fa6 HTTP/11.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbjFAZ21haWwuY29tIiwiaWQiOiI2NTQ2MzM1OTljYTU1MzJkZDFiYjA5M2QiLCJpYXQiOjE2OTkxMDIzMTIsImV4cCI6MTY5OTI3NTExMn0.PLLUy3hIQMom0S5doyYU0z8j9ePkwgGPqZDSAozlSpo
 
 {
-  "price": 100
+  "price": 5000
 }
 
 ###
@@ -98,3 +100,19 @@ GET http://localhost:5000/offers/Hamburg/premium HTTP/1.1
 
 GET http://localhost:5000/offers/Hamburg/premium HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1M2E2NTY0OWU0MjYzMDg4ZDBjZjFkZSIsImlhdCI6MTY5ODU4NTE2OSwiZXhwIjoxNjk4NzU3OTY5fQ.Fuqi7__JGbIpF2dxo8cdl0khvQTEb5hhJ3frmW05d2I
+
+###
+
+## Загрузить изображение для объявления
+POST http://localhost:5000/offers/6546078a72e37b7f13719fa6/imagePreview HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1NDYwNzM5NzJlMzdiN2YxMzcxOWZhMyIsImlhdCI6MTY5OTA4ODM2OSwiZXhwIjoxNjk5MjYxMTY5fQ.Y6l9CxdPrhnPSKrAtW2nXikXERqkfub0cGXfpYYRlrA
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="screen.png"
+Content-Type: image/png
+
+< \web-projects\candles\images\section-decor.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###

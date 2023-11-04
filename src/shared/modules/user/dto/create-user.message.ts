@@ -1,17 +1,17 @@
 export const CreateUserMessages = {
   username: {
-    invalidName: 'Мин. длина 1 символ, макс. длина 15 символов',
+    invalidName: 'Min. length 1 character, max. length 15 characters',
   },
   email: {
-    invalidEmail: 'Валидный адрес электронной почты',
+    invalidEmail: 'invalid email address',
   },
   avatar: {
-    invalid: 'Длина строки не должна превышать 256 символов',
+    invalid: 'The length of the line must not exceed 256 characters',
   },
   password: {
-    invalidPassword: 'Мин. длина 6 символов, макс. длина 12 символов',
+    invalidPassword: 'Min. length 6 characters, max. length 12 characters',
   },
   isPro: {
-    invalidType: 'Должен быть логическим значением',
+    invalidType: 'Must be a boolean',
   },
 };

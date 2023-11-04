@@ -8,6 +8,7 @@ import {
   OfferService,
   UpdateOfferDto,
   CreateOfferDto,
+  UploadImageRdo,
 } from './index.js';
 import { fillDTO } from '../../helpers/common.js';
 import {
@@ -15,6 +16,7 @@ import {
   DocumentExistsMiddleware,
   HttpMethod,
   PrivateRouteMiddleware,
+  UploadFileMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
@@ -23,6 +25,8 @@ import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { ReviewService } from '../review/review-service.interface.js';
 import { ReviewRdo } from '../review/index.js';
 import { ParamCityName } from './types/param-cityname.type.js';
+import { Config } from '../../libs/config/config.interface.js';
+import { RestSchema } from '../../libs/config/rest.schema.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -31,7 +35,8 @@ export class OfferController extends BaseController {
     @inject(Component.OfferService)
     private readonly offerService: OfferService,
     @inject(Component.ReviewService)
-    private readonly reviewService: ReviewService
+    private readonly reviewService: ReviewService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>
   ) {
     super(logger);
 
@@ -91,6 +96,19 @@ export class OfferController extends BaseController {
       method: HttpMethod.Get,
       handler: this.getPremium,
     });
+    this.addRoute({
+      path: '/:offerId/imagePreview',
+      method: HttpMethod.Post,
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(
+          this.configService.get('UPLOAD_DIRECTORY'),
+          'image'
+        ),
+      ],
+    });
   }
 
   public async index(req: Request, res: Response): Promise<void> {
@@ -121,11 +139,12 @@ export class OfferController extends BaseController {
   }
 
   public async delete(
-    { params }: Request<ParamOfferId>,
+    req: Request<ParamOfferId>,
     res: Response
   ): Promise<void> {
-    const { offerId } = params;
-    const offer = await this.offerService.deleteById(offerId);
+    const { offerId } = req.params;
+    const userId = req.tokenPayload.id;
+    const offer = await this.offerService.deleteById(offerId, userId);
 
     await this.reviewService.deleteByOfferId(offerId);
 
@@ -133,11 +152,15 @@ export class OfferController extends BaseController {
   }
 
   public async update(
-    { body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>,
+    req: Request<ParamOfferId, unknown, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
+    const userId = req.tokenPayload.id;
+    const offerId = req.params.offerId;
+    const body = req.body;
     const updateOffer = await this.offerService.updateById(
-      params.offerId,
+      offerId,
+      userId,
       body
     );
 
@@ -160,5 +183,14 @@ export class OfferController extends BaseController {
     const userId = req.tokenPayload?.id;
     const premium = await this.offerService.getPremium(cityName, userId);
     this.ok(res, fillDTO(OffersRdo, premium));
+  }
+
+  public async uploadImage(req: Request<ParamOfferId>, res: Response) {
+    const offerId = req.params.offerId;
+    const userId = req.tokenPayload.id;
+    const file = req.file;
+    const updateDto = { imagePreview: file?.filename };
+    await this.offerService.updateById(offerId, userId, updateDto);
+    this.created(res, fillDTO(UploadImageRdo, updateDto));
   }
 }

@@ -1,18 +1,18 @@
 export const CreateReviewDtoMessages = {
   text: {
-    invalidFormat: 'Должен быть текст',
-    lengthText: 'Мин. длина 5 символов, макс. длина 1024 символа',
+    invalidFormat: 'Must be text',
+    lengthText: 'Min. length 5 characters, max. length 1024 characters',
   },
   rating: {
-    invalidFormat: 'Должно быть целое число',
-    maxValue: 'Максимальное значение 5',
-    minValue: 'Минимальное значение 1',
+    invalidFormat: 'Must be an integer',
+    maxValue: 'Maximum value 5',
+    minValue: 'Minimum value 1',
   },
   userId: {
-    invalidFormat: 'Должен быть валидный идентификатор',
+    invalidFormat: 'Must be a valid identifier',
   },
 
   offerId: {
-    invalidFormat: 'Должен быть валидный идентификатор',
+    invalidFormat: 'Must be a valid identifier',
   },
 };

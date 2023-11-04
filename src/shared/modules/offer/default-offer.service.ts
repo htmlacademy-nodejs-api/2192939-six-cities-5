@@ -13,6 +13,8 @@ import {
   DEFAULT_OFFER_COUNT,
   DEFAULT_PREMIUM_OFFER_COUNT,
 } from './offer.constants.js';
+import { HttpError } from '../../libs/rest/index.js';
+import { StatusCodes } from 'http-status-codes';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -115,16 +117,40 @@ export class DefaultOfferService implements OfferService {
 
   public async updateById(
     offerId: string,
+    userId: string,
     dto: UpdateOfferDto
   ): Promise<DocumentType<OfferEntity> | null> {
+    const offer = await this.findById(offerId);
+    const isHostOffer = String(offer?.hostId._id) === userId;
+    console.log(String(offer?.hostId._id) === userId);
+
+    if (!isHostOffer) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'DefaultOfferService'
+      );
+    }
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
       .exec();
   }
 
   public async deleteById(
-    offerId: string
+    offerId: string,
+    userId: string
   ): Promise<DocumentType<OfferEntity> | null> {
+    const offer = await this.findById(offerId);
+    const isHostOffer = String(offer?.hostId._id) === userId;
+    console.log(String(offer?.hostId._id) === userId);
+
+    if (!isHostOffer) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'DefaultOfferService'
+      );
+    }
     return this.offerModel.findByIdAndDelete(offerId).exec();
   }
 

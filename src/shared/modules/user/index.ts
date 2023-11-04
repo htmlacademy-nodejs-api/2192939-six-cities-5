@@ -9,3 +9,5 @@ export * from './rdo/user.rdo.js';
 export * from './dto/create-user.message.js';
 export * from './dto/login-user.messages.js';
 export * from './dto/login-user.dto.js';
+export * from './dto/update-user.dto.js';
+export * from './user.constants.js';
