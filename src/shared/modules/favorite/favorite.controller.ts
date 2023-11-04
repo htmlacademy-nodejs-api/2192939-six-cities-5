@@ -1,4 +1,4 @@
-import { HttpError, PrivateRouteMiddleware } from '../../libs/rest/index.js';
+import { PrivateRouteMiddleware } from '../../libs/rest/index.js';
 import { inject, injectable } from 'inversify';
 import {
   BaseController,
@@ -11,16 +11,13 @@ import { FavoriteService } from './index.js';
 import { Request, Response } from 'express';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo, OffersRdo } from '../offer/index.js';
-import { UserService } from '../user/user-service.interface.js';
-import { StatusCodes } from 'http-status-codes';
 
 @injectable()
 export class FavoriteController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.FavoriteService)
-    private readonly favoriteService: FavoriteService,
-    @inject(Component.UserService) private readonly userService: UserService
+    private readonly favoriteService: FavoriteService
   ) {
     super(logger);
 
@@ -52,28 +49,6 @@ export class FavoriteController extends BaseController {
   public async update(req: Request, res: Response): Promise<void> {
     const { offerId, status } = req.params;
     const userId = req.tokenPayload.id;
-    /**
-     * Проверяем есть ли предложение в избранном
-     */
-
-    const user = await this.userService.findById(userId);
-    const favoriteExists = user?.favorites.includes(offerId);
-
-    if (favoriteExists && status === '1') {
-      throw new HttpError(
-        StatusCodes.CONFLICT,
-        `Offer with id «${offerId}» already added to favorites`,
-        'FavoriteController'
-      );
-    }
-
-    if (!favoriteExists && status === '0') {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id «${offerId}» not found`,
-        'FavoriteController'
-      );
-    }
 
     const offer = await this.favoriteService.setFavoriteById(
       offerId,

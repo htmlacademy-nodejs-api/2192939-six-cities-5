@@ -139,11 +139,12 @@ export class OfferController extends BaseController {
   }
 
   public async delete(
-    { params }: Request<ParamOfferId>,
+    req: Request<ParamOfferId>,
     res: Response
   ): Promise<void> {
-    const { offerId } = params;
-    const offer = await this.offerService.deleteById(offerId);
+    const { offerId } = req.params;
+    const userId = req.tokenPayload.id;
+    const offer = await this.offerService.deleteById(offerId, userId);
 
     await this.reviewService.deleteByOfferId(offerId);
 
@@ -151,11 +152,15 @@ export class OfferController extends BaseController {
   }
 
   public async update(
-    { body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>,
+    req: Request<ParamOfferId, unknown, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
+    const userId = req.tokenPayload.id;
+    const offerId = req.params.offerId;
+    const body = req.body;
     const updateOffer = await this.offerService.updateById(
-      params.offerId,
+      offerId,
+      userId,
       body
     );
 
@@ -180,13 +185,12 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OffersRdo, premium));
   }
 
-  public async uploadImage(
-    { params, file }: Request<ParamOfferId>,
-    res: Response
-  ) {
-    const { offerId } = params;
+  public async uploadImage(req: Request<ParamOfferId>, res: Response) {
+    const offerId = req.params.offerId;
+    const userId = req.tokenPayload.id;
+    const file = req.file;
     const updateDto = { imagePreview: file?.filename };
-    await this.offerService.updateById(offerId, updateDto);
+    await this.offerService.updateById(offerId, userId, updateDto);
     this.created(res, fillDTO(UploadImageRdo, updateDto));
   }
 }

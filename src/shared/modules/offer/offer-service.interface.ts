@@ -12,12 +12,16 @@ export interface OfferService extends DocumentExists {
    */
   updateById(
     offerId: string,
+    userId: string,
     dto: UpdateOfferDto
   ): Promise<DocumentType<OfferEntity> | null>;
   /**
    * Удаление предложения
    */
-  deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  deleteById(
+    offerId: string,
+    userId: string
+  ): Promise<DocumentType<OfferEntity> | null>;
   /**
    * Получение списка предложений по аренде
    */

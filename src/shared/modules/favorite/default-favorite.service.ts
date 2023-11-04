@@ -5,7 +5,9 @@ import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { types } from '@typegoose/typegoose';
 import { OfferEntity } from '../offer/index.js';
-import { UserEntity } from '../user/index.js';
+import { UserEntity, UserService } from '../user/index.js';
+import { HttpError } from '../../libs/rest/index.js';
+import { StatusCodes } from 'http-status-codes';
 
 @injectable()
 export class DefaultFavoriteService implements FavoriteService {
@@ -14,7 +16,8 @@ export class DefaultFavoriteService implements FavoriteService {
     @inject(Component.OfferModel)
     private readonly offerModel: types.ModelType<OfferEntity>,
     @inject(Component.UserModel)
-    private readonly userModel: types.ModelType<UserEntity>
+    private readonly userModel: types.ModelType<UserEntity>,
+    @inject(Component.UserService) private readonly userService: UserService
   ) {}
 
   /**
@@ -42,6 +45,29 @@ export class DefaultFavoriteService implements FavoriteService {
     status: string,
     userId: string
   ): Promise<types.DocumentType<OfferEntity> | null> {
+    /**
+     * Проверяем есть ли предложение в избранном
+     */
+
+    const user = await this.userService.findById(userId);
+    const favoriteExists = user?.favorites.includes(offerId);
+
+    if (favoriteExists && status === '1') {
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        `Offer with id «${offerId}» already added to favorites`,
+        'FavoriteController'
+      );
+    }
+
+    if (!favoriteExists && status === '0') {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id «${offerId}» not found`,
+        'FavoriteController'
+      );
+    }
+
     await this.userModel
       .updateOne(
         { _id: userId },

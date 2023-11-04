@@ -6,7 +6,7 @@ import { inject, injectable } from 'inversify';
 import * as crypto from 'node:crypto';
 import { Config, RestSchema } from '../../libs/config/index.js';
 import { SignJWT } from 'jose';
-import { JWT_EXPIRED, JWT_ALGORITHM } from './auth.constants.js';
+import { Jwt } from './auth.constants.js';
 import { TokenPayload } from './types/token-payload.js';
 import {
   UserNotFoundException,
@@ -31,9 +31,9 @@ export class DefaultAuthService implements AuthService {
 
     this.logger.info(`Create token for ${user.email}`);
     return new SignJWT(tokenPayload)
-      .setProtectedHeader({ alg: JWT_ALGORITHM })
+      .setProtectedHeader({ alg: Jwt.Algorithm })
       .setIssuedAt()
-      .setExpirationTime(JWT_EXPIRED)
+      .setExpirationTime(Jwt.Expired)
       .sign(secretKey);
   }
 

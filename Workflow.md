@@ -2,7 +2,7 @@
 
 ## Окружение
 
-Для удобства работы над проектом используются инструменты из **Node.js** и **npm**. Все необходимые настройки произведены. Убедитесь, что на рабочем компьютере установлен актуальный LTS релиз Node.js**. Актуальная версия **Node.js** указана в файле `package.json` в поле `node`. Затем, в терминале, перейдите в директорию с проектом и _единожды_ запустите команду:
+Для удобства работы над проектом используются инструменты из **Node.js** и **npm**. Все необходимые настройки произведены. Убедитесь, что на рабочем компьютере установлен актуальный LTS релиз Node.js**. Актуальная версия **Node.js\*\* указана в файле `package.json` в поле `node`. Затем, в терминале, перейдите в директорию с проектом и _единожды_ запустите команду:
 
 ```bash
 npm install
@@ -66,6 +66,14 @@ npm start
 
 В процессе запуска проекта будет выполнен процесс «Сборки проекта» и запуска результирующего кода.
 
+### Запустить проект в режиме разработчика
+
+```bash
+npm run start:dev
+```
+
+Запускает проект в режиме разработчика и автоматизирует перезапуск сервера с помощью настроенного пакета nodemon
+
 ## Структура проекта
 
 ### Директория `src`
@@ -83,3 +91,17 @@ npm start
 ### Остальное
 
 Все остальные файлы в проекте являются служебными. Пожалуйста, не удаляйте и не изменяйте их самовольно. Только если того требует задание или наставник.
+
+### Список переменных окружения
+
+PORT=5000-'Port for incoming connection'
+SALT=secret-'Salt for password hash'
+DB_HOST=127.0.0.1-'IP address of the database server (MongoDB)'
+DB_USER=admin-'Username to connect to the database'
+DB_PASSWORD=test-'Password to connect to the database'
+DB_PORT=27017-'Port to connect to database (MongoDB)'
+DB_NAME=six-cities-'Database name (MongoDB)'
+UPLOAD_DIRECTORY=/web-projects/2192939-six-cities-5/upload/-'Directory for upload files'
+JWT_SECRET=secret-'Secret for sign JWT'
+HOST=localhost-'Host were started service'
+STATIC_DIRECTORY_PATH=static-'Path to directory with static resources'

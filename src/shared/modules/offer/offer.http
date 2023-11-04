@@ -71,16 +71,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 ###
 ## Удалить выбранное предложение по идентификатору
 
-DELETE http://localhost:5000/offers/652bc339a4b067f1c1aae1b8 HTTP/1.1
+DELETE http://localhost:5000/offers/6546078a72e37b7f13719fa6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1NDYwNzM5NzJlMzdiN2YxMzcxOWZhMyIsImlhdCI6MTY5OTEwMjYzMiwiZXhwIjoxNjk5Mjc1NDMyfQ.uM1PsEbgER1c8yhTOOp4pmsp0gb1wHCVQsOJJznZbZ8
 
 ###
 ## Обновить выбранное предложение
 
-PATCH  http://localhost:5000/offers/652bc339a4b067f1c1aae1b8 HTTP/11.1
+PATCH  http://localhost:5000/offers/6546078a72e37b7f13719fa6 HTTP/11.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbjFAZ21haWwuY29tIiwiaWQiOiI2NTQ2MzM1OTljYTU1MzJkZDFiYjA5M2QiLCJpYXQiOjE2OTkxMDIzMTIsImV4cCI6MTY5OTI3NTExMn0.PLLUy3hIQMom0S5doyYU0z8j9ePkwgGPqZDSAozlSpo
 
 {
-  "price": 100
+  "price": 5000
 }
 
 ###

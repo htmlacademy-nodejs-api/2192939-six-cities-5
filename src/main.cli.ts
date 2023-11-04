@@ -1,38 +1,24 @@
 import 'reflect-metadata';
-import { fileURLToPath } from 'node:url';
-import { CLIApplication, Command } from './cli/index.js';
-import { dirname, resolve } from 'node:path';
-import { readdirSync } from 'node:fs';
-
-const COMMAND_DIR = './cli/commands/';
-const regularExpression = new RegExp(/.command/);
+import {
+  CLIApplication,
+  GenerateCommand,
+  HelpCommand,
+  ImportCommand,
+  VersionCommand,
+} from './cli/index.js';
 
 /**Точка входа приложения */
-async function bootstrap() {
-  /**Считываем все команды из директории ./commands */
-  const filename = fileURLToPath(import.meta.url);
-  const filepath = dirname(filename);
-  const commandPath = resolve(filepath, COMMAND_DIR);
-
-  const commandFileNames = readdirSync(commandPath)
-    .filter((commandFileName) => regularExpression.test(commandFileName))
-    .map((commandFileName) => commandFileName.replace('ts', 'js'));
-
-  const commands = [];
-  for (let i = 0; i < commandFileNames.length; i++) {
-    const commandName: Array<{ new (...args: unknown[]): Command }> =
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
-      await import(COMMAND_DIR + commandFileNames[i]);
-
-    const [command] = Object.values(commandName);
-    commands.push(new command());
-  }
-
+function bootstrap() {
   /**Создает экземпляр класса  CLIApplication*/
   const cliApplication = new CLIApplication();
 
   /**Регистрирует команды */
-  cliApplication.registerCommands(commands);
+  cliApplication.registerCommands([
+    new HelpCommand(),
+    new VersionCommand(),
+    new ImportCommand(),
+    new GenerateCommand(),
+  ]);
 
   /**Запускает processCommand и передает в него все данные, переданные вызываемому скрипту */
   cliApplication.processCommand(process.argv);
