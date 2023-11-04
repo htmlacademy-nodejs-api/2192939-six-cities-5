@@ -48,11 +48,9 @@ export class TSVOfferGenerator implements OfferGenerator {
     const cityName = city.name;
     const cityLatitude = city.location.latitude.toString();
     const cityLongitude = city.location.longitude.toString();
-    const cityZoom = city.location.zoom.toString();
     const imagePreview = getRandomItem<string>(this.mockData.images);
     const offerLatitude = location.latitude.toString();
     const offerLongitude = location.longitude.toString();
-    const offerZoom = location.zoom.toString();
     const goods = getRandomItems<string>(this.mockData.goods).join(';');
     const hostId = randomUUID();
     const isPremium = getRandomItem<number>(this.mockData.isPremium);
@@ -73,11 +71,9 @@ export class TSVOfferGenerator implements OfferGenerator {
       cityName,
       cityLatitude,
       cityLongitude,
-      cityZoom,
       imagePreview,
       offerLatitude,
       offerLongitude,
-      offerZoom,
       goods,
       hostId,
       isPremium,
