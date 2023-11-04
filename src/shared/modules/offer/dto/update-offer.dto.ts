@@ -13,74 +13,74 @@ import {
   IsOptional,
 } from 'class-validator';
 import { City, HousingType, Location } from '../../../types/index.js';
-import { CreateOfferValidationMessage } from '../index.js';
+import { UpdateOfferValidationMessage } from './update-offer.messages.js';
 
 export class UpdateOfferDto {
   @IsOptional()
-  @Length(10, 100, { message: CreateOfferValidationMessage.title.length })
+  @Length(10, 100, { message: UpdateOfferValidationMessage.title.length })
   public title?: string;
 
   @IsOptional()
   @Length(20, 1024, {
-    message: CreateOfferValidationMessage.description.length,
+    message: UpdateOfferValidationMessage.description.length,
   })
   public description?: string;
 
   @IsOptional()
-  @ValidateNested({ message: CreateOfferValidationMessage.city.invalid })
+  @ValidateNested({ message: UpdateOfferValidationMessage.city.invalid })
   public city?: City;
 
   @IsOptional()
   @MaxLength(256, {
-    message: CreateOfferValidationMessage.imagePreview.maxLength,
+    message: UpdateOfferValidationMessage.imagePreview.maxLength,
   })
   public imagePreview?: string;
 
   @IsOptional()
-  @IsArray({ message: CreateOfferValidationMessage.images.invalidType })
-  @ArrayMinSize(6, { message: CreateOfferValidationMessage.images.length })
+  @IsArray({ message: UpdateOfferValidationMessage.images.invalidType })
+  @ArrayMinSize(6, { message: UpdateOfferValidationMessage.images.length })
   public images?: string[];
 
   @IsOptional()
-  @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
+  @IsBoolean({ message: UpdateOfferValidationMessage.isPremium.invalidFormat })
   public isPremium?: boolean;
 
   @IsOptional()
   @IsEnum(HousingType, {
     each: true,
-    message: CreateOfferValidationMessage.type.invalid,
+    message: UpdateOfferValidationMessage.type.invalid,
   })
   public type?: HousingType;
 
   @IsOptional()
-  @IsInt({ message: CreateOfferValidationMessage.bedrooms.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.bedrooms.minValue })
-  @Max(8, { message: CreateOfferValidationMessage.bedrooms.maxValue })
+  @IsInt({ message: UpdateOfferValidationMessage.bedrooms.invalidFormat })
+  @Min(1, { message: UpdateOfferValidationMessage.bedrooms.minValue })
+  @Max(8, { message: UpdateOfferValidationMessage.bedrooms.maxValue })
   public bedrooms?: number;
 
   @IsOptional()
-  @IsInt({ message: CreateOfferValidationMessage.maxAdults.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.maxAdults.minValue })
-  @Max(10, { message: CreateOfferValidationMessage.maxAdults.maxValue })
+  @IsInt({ message: UpdateOfferValidationMessage.maxAdults.invalidFormat })
+  @Min(1, { message: UpdateOfferValidationMessage.maxAdults.minValue })
+  @Max(10, { message: UpdateOfferValidationMessage.maxAdults.maxValue })
   public maxAdults?: number;
 
   @IsOptional()
-  @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
-  @Min(100, { message: CreateOfferValidationMessage.price.minValue })
-  @Max(100000, { message: CreateOfferValidationMessage.price.maxValue })
+  @IsInt({ message: UpdateOfferValidationMessage.price.invalidFormat })
+  @Min(100, { message: UpdateOfferValidationMessage.price.minValue })
+  @Max(100000, { message: UpdateOfferValidationMessage.price.maxValue })
   public price?: number;
 
   @IsOptional()
-  @IsArray({ message: CreateOfferValidationMessage.goods.invalidType })
+  @IsArray({ message: UpdateOfferValidationMessage.goods.invalidType })
   public goods?: string[];
 
   @IsOptional()
-  @IsMongoId({ message: CreateOfferValidationMessage.hostId.invalidType })
+  @IsMongoId({ message: UpdateOfferValidationMessage.hostId.invalidType })
   public hostId?: string;
 
   @IsOptional()
   @ValidateNested({
-    message: CreateOfferValidationMessage.location.invalidType,
+    message: UpdateOfferValidationMessage.location.invalidType,
   })
   public location?: Location;
 }
