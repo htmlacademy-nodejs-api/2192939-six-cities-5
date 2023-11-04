@@ -3,6 +3,9 @@ import { ObjectId } from 'mongoose';
 
 export class UserRdo {
   @Expose()
+  public id: string;
+
+  @Expose()
   public username: string;
 
   @Expose()

@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ## Отправить изображение
 
-POST http://localhost:5000/users/65333a4da8c0da8fc5a6a10a/avatar HTTP/1.1
+POST http://localhost:5000/users/6546073972e37b7f13719fa3/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 

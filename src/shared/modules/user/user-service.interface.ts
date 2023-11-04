@@ -1,5 +1,5 @@
 import { DocumentType } from '@typegoose/typegoose';
-import { CreateUserDto, UserEntity } from './index.js';
+import { CreateUserDto, UserEntity, UpdateUserDto } from './index.js';
 
 export interface UserService {
   /**
@@ -12,4 +12,8 @@ export interface UserService {
     dto: CreateUserDto,
     salt: string
   ): Promise<DocumentType<UserEntity>>;
+  updateById(
+    userId: string,
+    dto: UpdateUserDto
+  ): Promise<DocumentType<UserEntity> | null>;
 }
