@@ -8,7 +8,7 @@ const emptyOffer: NewOffer = {
   title: '',
   description: '',
   city: { name: CITIES[0], location: CityLocation[CITIES[0]] },
-  previewImage: '',
+  imagePreview: '',
   isPremium: false,
   type: 'apartment',
   bedrooms: 1,
@@ -16,7 +16,7 @@ const emptyOffer: NewOffer = {
   price: 0,
   goods: [],
   location: CityLocation[CITIES[0]],
-  images: new Array(6).fill('')
+  images: new Array(6).fill(''),
 };
 
 const AddOffer = (): JSX.Element | null => {
@@ -27,14 +27,15 @@ const AddOffer = (): JSX.Element | null => {
   };
 
   return (
-    <main className="page__main">
-      <div className="container">
+    <main className='page__main'>
+      <div className='container'>
         <section>
           <h1>Add new offer</h1>
           <OfferForm offer={emptyOffer} onSubmit={handleFormSubmit} />
         </section>
       </div>
     </main>
-  );};
+  );
+};
 
 export default AddOffer;

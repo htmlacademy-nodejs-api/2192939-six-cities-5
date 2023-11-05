@@ -1,4 +1,6 @@
-import { City, Type } from '../../types/types';
+import { HousingType } from './../../../../src/shared/types/housing-type.enum';
+import { CityDto } from './city-offer.dto';
+import { LocationDto } from './location-offer.dto';
 
 export class OffersDto {
   public id!: string;
@@ -7,7 +9,7 @@ export class OffersDto {
 
   public date!: Date;
 
-  public city!: City;
+  public city!: CityDto;
 
   public imagePreview!: string;
 
@@ -17,11 +19,11 @@ export class OffersDto {
 
   public rating!: number;
 
-  public type!: Type;
+  public type!: HousingType;
 
   public price!: number;
 
   public reviewCount!: number;
 
-  public location!: Location;
+  public location!: LocationDto;
 }

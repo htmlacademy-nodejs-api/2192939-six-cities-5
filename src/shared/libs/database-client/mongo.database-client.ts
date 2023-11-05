@@ -5,8 +5,10 @@ import { Component } from '../../types/component.enum.js';
 import { Logger } from '../logger/index.js';
 import { setTimeout } from 'node:timers/promises';
 
-const RETRY_COUNT = 5;
-const RETRY_TIMEOUT = 1000;
+enum Retry {
+  Count = 5,
+  Timeout = 1000,
+}
 
 @injectable()
 export class MongoDatabaseClient implements DatabaseClient {
@@ -35,7 +37,7 @@ export class MongoDatabaseClient implements DatabaseClient {
     this.logger.info('Trying to connect to MongoDB...');
 
     let attempt = 0;
-    while (attempt < RETRY_COUNT) {
+    while (attempt < Retry.Count) {
       try {
         /**Подключается к БД */
         this.mongoose = await Mongoose.connect(uri);
@@ -49,12 +51,12 @@ export class MongoDatabaseClient implements DatabaseClient {
         this.logger.info(
           `Filed to connect to the database. Attempt ${attempt}`
         );
-        await setTimeout(RETRY_TIMEOUT);
+        await setTimeout(Retry.Timeout);
       }
     }
 
     throw new Error(
-      `Unable to establish database connection after ${RETRY_COUNT}`
+      `Unable to establish database connection after ${Retry.Count}`
     );
   }
 
