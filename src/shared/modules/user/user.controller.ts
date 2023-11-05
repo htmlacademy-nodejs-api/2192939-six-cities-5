@@ -63,6 +63,11 @@ export class UserController extends BaseController {
       method: HttpMethod.Get,
       handler: this.checkAuthenticate,
     });
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Delete,
+      handler: this.logout,
+    });
   }
 
   public async create(
@@ -121,5 +126,9 @@ export class UserController extends BaseController {
     }
 
     this.ok(res, fillDTO(LoggedUserRdo, foundUser));
+  }
+
+  public async logout(_req: Request, res: Response): Promise<void> {
+    this.ok(res, {});
   }
 }
