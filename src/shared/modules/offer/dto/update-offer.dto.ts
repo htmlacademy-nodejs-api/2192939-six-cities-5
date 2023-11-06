@@ -11,17 +11,29 @@ import {
   Max,
   IsMongoId,
   IsOptional,
+  ArrayMaxSize,
 } from 'class-validator';
 import { City, HousingType, Location } from '../../../types/index.js';
 import { UpdateOfferValidationMessage } from './update-offer.messages.js';
+import {
+  BedroomsValue,
+  DescriptionLength,
+  IMAGE_PREVIEW_MAX_LENGTH,
+  MaxAdultsValue,
+  NUMBER_OF_IMAGES,
+  PriceValue,
+  TitleLength,
+} from './offer-dto.constants.js';
 
 export class UpdateOfferDto {
   @IsOptional()
-  @Length(10, 100, { message: UpdateOfferValidationMessage.title.length })
+  @Length(TitleLength.min, TitleLength.max, {
+    message: UpdateOfferValidationMessage.title.length,
+  })
   public title?: string;
 
   @IsOptional()
-  @Length(20, 1024, {
+  @Length(DescriptionLength.min, DescriptionLength.max, {
     message: UpdateOfferValidationMessage.description.length,
   })
   public description?: string;
@@ -31,14 +43,19 @@ export class UpdateOfferDto {
   public city?: City;
 
   @IsOptional()
-  @MaxLength(256, {
+  @MaxLength(IMAGE_PREVIEW_MAX_LENGTH, {
     message: UpdateOfferValidationMessage.imagePreview.maxLength,
   })
   public imagePreview?: string;
 
   @IsOptional()
   @IsArray({ message: UpdateOfferValidationMessage.images.invalidType })
-  @ArrayMinSize(6, { message: UpdateOfferValidationMessage.images.length })
+  @ArrayMinSize(NUMBER_OF_IMAGES, {
+    message: UpdateOfferValidationMessage.images.length,
+  })
+  @ArrayMaxSize(NUMBER_OF_IMAGES, {
+    message: UpdateOfferValidationMessage.images.length,
+  })
   public images?: string[];
 
   @IsOptional()
@@ -54,20 +71,28 @@ export class UpdateOfferDto {
 
   @IsOptional()
   @IsInt({ message: UpdateOfferValidationMessage.bedrooms.invalidFormat })
-  @Min(1, { message: UpdateOfferValidationMessage.bedrooms.minValue })
-  @Max(8, { message: UpdateOfferValidationMessage.bedrooms.maxValue })
+  @Min(BedroomsValue.min, {
+    message: UpdateOfferValidationMessage.bedrooms.minValue,
+  })
+  @Max(BedroomsValue.max, {
+    message: UpdateOfferValidationMessage.bedrooms.maxValue,
+  })
   public bedrooms?: number;
 
   @IsOptional()
   @IsInt({ message: UpdateOfferValidationMessage.maxAdults.invalidFormat })
-  @Min(1, { message: UpdateOfferValidationMessage.maxAdults.minValue })
-  @Max(10, { message: UpdateOfferValidationMessage.maxAdults.maxValue })
+  @Min(MaxAdultsValue.min, {
+    message: UpdateOfferValidationMessage.maxAdults.minValue,
+  })
+  @Max(MaxAdultsValue.max, {
+    message: UpdateOfferValidationMessage.maxAdults.maxValue,
+  })
   public maxAdults?: number;
 
   @IsOptional()
   @IsInt({ message: UpdateOfferValidationMessage.price.invalidFormat })
-  @Min(100, { message: UpdateOfferValidationMessage.price.minValue })
-  @Max(100000, { message: UpdateOfferValidationMessage.price.maxValue })
+  @Min(PriceValue.min, { message: UpdateOfferValidationMessage.price.minValue })
+  @Max(PriceValue.max, { message: UpdateOfferValidationMessage.price.maxValue })
   public price?: number;
 
   @IsOptional()

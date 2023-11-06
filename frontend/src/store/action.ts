@@ -13,6 +13,7 @@ import type {
 } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils';
+import { adaptCreateUser } from '../utils/adapters/adapter-to-server';
 
 type Extra = {
   api: AxiosInstance;
@@ -194,26 +195,22 @@ export const registerUser = createAsyncThunk<
   void,
   UserRegister,
   { extra: Extra }
->(
-  Action.REGISTER_USER,
-  async ({ email, password, name, avatar, type }, { extra }) => {
-    const { api, history } = extra;
-    const { data } = await api.post<{ id: string }>(ApiRoute.Register, {
-      email,
-      password,
-      name,
-      type,
+>(Action.REGISTER_USER, async (user, { extra }) => {
+  const { api, history } = extra;
+
+  const { data } = await api.post<{ id: string }>(
+    ApiRoute.Register,
+    adaptCreateUser(user)
+  );
+  if (user.avatar) {
+    const payload = new FormData();
+    payload.append('avatar', user.avatar);
+    await api.post(`/${data.id}${ApiRoute.Avatar}`, payload, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
-    if (avatar) {
-      const payload = new FormData();
-      payload.append('avatar', avatar);
-      await api.post(`/${data.id}${ApiRoute.Avatar}`, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    }
-    history.push(AppRoute.Login);
   }
-);
+  history.push(AppRoute.Login);
+});
 
 export const postComment = createAsyncThunk<
   Comment,

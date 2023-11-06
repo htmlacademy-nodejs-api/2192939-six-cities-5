@@ -10,16 +10,28 @@ import {
   IsInt,
   Min,
   Max,
+  ArrayMaxSize,
 } from 'class-validator';
 import { City, HousingType } from '../../../types/index.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 import { LocationDto } from './location-offer.dto.js';
+import {
+  BedroomsValue,
+  DescriptionLength,
+  IMAGE_PREVIEW_MAX_LENGTH,
+  MaxAdultsValue,
+  NUMBER_OF_IMAGES,
+  PriceValue,
+  TitleLength,
+} from './offer-dto.constants.js';
 
 export class CreateOfferDto {
-  @Length(10, 100, { message: CreateOfferValidationMessage.title.length })
+  @Length(TitleLength.min, TitleLength.max, {
+    message: CreateOfferValidationMessage.title.length,
+  })
   public title: string;
 
-  @Length(20, 1024, {
+  @Length(DescriptionLength.min, DescriptionLength.max, {
     message: CreateOfferValidationMessage.description.length,
   })
   public description: string;
@@ -33,13 +45,18 @@ export class CreateOfferDto {
   @ValidateNested({ message: CreateOfferValidationMessage.city.invalid })
   public city: City;
 
-  @MaxLength(256, {
+  @MaxLength(IMAGE_PREVIEW_MAX_LENGTH, {
     message: CreateOfferValidationMessage.imagePreview.maxLength,
   })
   public imagePreview: string;
 
   @IsArray({ message: CreateOfferValidationMessage.images.invalidType })
-  @ArrayMinSize(6, { message: CreateOfferValidationMessage.images.length })
+  @ArrayMinSize(NUMBER_OF_IMAGES, {
+    message: CreateOfferValidationMessage.images.length,
+  })
+  @ArrayMaxSize(NUMBER_OF_IMAGES, {
+    message: CreateOfferValidationMessage.images.length,
+  })
   public images: string[];
 
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
@@ -52,18 +69,26 @@ export class CreateOfferDto {
   public type: HousingType;
 
   @IsInt({ message: CreateOfferValidationMessage.bedrooms.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.bedrooms.minValue })
-  @Max(8, { message: CreateOfferValidationMessage.bedrooms.maxValue })
+  @Min(BedroomsValue.min, {
+    message: CreateOfferValidationMessage.bedrooms.minValue,
+  })
+  @Max(BedroomsValue.max, {
+    message: CreateOfferValidationMessage.bedrooms.maxValue,
+  })
   public bedrooms: number;
 
   @IsInt({ message: CreateOfferValidationMessage.maxAdults.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.maxAdults.minValue })
-  @Max(10, { message: CreateOfferValidationMessage.maxAdults.maxValue })
+  @Min(MaxAdultsValue.min, {
+    message: CreateOfferValidationMessage.maxAdults.minValue,
+  })
+  @Max(MaxAdultsValue.max, {
+    message: CreateOfferValidationMessage.maxAdults.maxValue,
+  })
   public maxAdults: number;
 
   @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
-  @Min(100, { message: CreateOfferValidationMessage.price.minValue })
-  @Max(100000, { message: CreateOfferValidationMessage.price.maxValue })
+  @Min(PriceValue.min, { message: CreateOfferValidationMessage.price.minValue })
+  @Max(PriceValue.max, { message: CreateOfferValidationMessage.price.maxValue })
   public price: number;
 
   @IsArray({ message: CreateOfferValidationMessage.goods.invalidType })
