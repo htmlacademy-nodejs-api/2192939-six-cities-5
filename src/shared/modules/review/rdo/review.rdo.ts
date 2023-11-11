@@ -1,20 +1,22 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { UserRdo } from '../../user/index.js';
 
 export class ReviewRdo {
-  @Expose({ name: '_id' })
+  @Expose()
+  @Transform((query) => query.obj['_id'])
   public id: string;
 
   @Expose()
-  public text: string;
+  public comment: string;
 
   @Expose({ name: 'createdAt' })
-  public data: string;
+  public date: string;
 
   @Expose()
   public rating: number;
 
-  @Expose({ name: 'userId' })
+  @Expose()
+  @Transform((query) => query.obj[query.key])
   @Type(() => UserRdo)
   public user: UserRdo;
 }

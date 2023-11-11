@@ -1,4 +1,4 @@
-import { IsInt, IsMongoId, IsString, Length, Max, Min } from 'class-validator';
+import { IsInt, IsString, Length, Max, Min } from 'class-validator';
 import { CreateReviewDtoMessages } from './create-review.messages.js';
 
 enum TextLength {
@@ -15,7 +15,7 @@ export class CreateReviewDto {
   @Length(TextLength.min, TextLength.max, {
     message: CreateReviewDtoMessages.text.lengthText,
   })
-  public text: string;
+  public comment: string;
 
   @IsInt({ message: CreateReviewDtoMessages.rating.invalidFormat })
   @Min(RatingValue.min, { message: CreateReviewDtoMessages.rating.minValue })
@@ -24,6 +24,5 @@ export class CreateReviewDto {
 
   public userId: string;
 
-  @IsMongoId({ message: CreateReviewDtoMessages.offerId.invalidFormat })
   public offerId: string;
 }

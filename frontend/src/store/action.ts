@@ -123,7 +123,7 @@ export const fetchPremiumOffers = createAsyncThunk<
 >(Action.FETCH_PREMIUM_OFFERS, async (cityName, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<Offer[]>(
-    `${ApiRoute.Premium}?city=${cityName}`
+    `${ApiRoute.Offers}/${cityName}${ApiRoute.Premium}`
   );
 
   return data;
@@ -219,10 +219,12 @@ export const postComment = createAsyncThunk<
   { extra: Extra }
 >(Action.POST_COMMENT, async ({ id, comment, rating }, { extra }) => {
   const { api } = extra;
-  const { data } = await api.post<Comment>(
-    `${ApiRoute.Offers}/${id}${ApiRoute.Comments}`,
-    { comment, rating }
-  );
+
+  const { data } = await api.post<Comment>(`${ApiRoute.Comments}`, {
+    comment,
+    rating,
+    id,
+  });
 
   return data;
 });
