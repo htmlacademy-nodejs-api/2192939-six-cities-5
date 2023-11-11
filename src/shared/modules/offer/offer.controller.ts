@@ -115,6 +115,7 @@ export class OfferController extends BaseController {
     const userId = req.tokenPayload?.id;
 
     const offers = await this.offerService.find(userId);
+
     this.ok(res, fillDTO(OffersRdo, offers));
   }
 

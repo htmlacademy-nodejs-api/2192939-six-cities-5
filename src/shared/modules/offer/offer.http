@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iLCJpZCI6IjY1NDYwNzM5NzJlMzdiN2YxMzcxOWZhMyIsImlhdCI6MTY5OTA4ODE5OCwiZXhwIjoxNjk5MjYwOTk4fQ.PuV5q-n-f-vcRqAdr3EbIPTVdkKcjIrtAVycQLrRNPI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbjFAZ21haWwuY29tIiwiaWQiOiI2NTRiOTdlNzQyNmUyY2M3YmYzMzI1NzgiLCJpYXQiOjE2OTk0NTI5ODIsImV4cCI6MTY5OTYyNTc4Mn0.TZlH_xYbYv9ZL8WEHph41JWp9-cuJ-7oVOF2ifFLvmI
 
 {
   "title": "Nice, cozy, warm big bed apartment",
@@ -35,7 +35,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
     "name": "Hamburg",
     "location": {
       "latitude": 53.550341,
-      "longitude": 10.000654,
+      "longitude": 10.000654
     }
   },
   "imagePreview": "image-7.jpg",
@@ -62,7 +62,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
   "hostId": "652c13d06ca32aa32aab1714",
   "location": {
     "latitude": 50.916361,
-    "longitude": 6.944974,
+    "longitude": 6.944974
   }
 }
 

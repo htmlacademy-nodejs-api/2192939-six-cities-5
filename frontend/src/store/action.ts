@@ -45,6 +45,7 @@ export const fetchOffers = createAsyncThunk<
 >(Action.FETCH_OFFERS, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<Offer[]>(ApiRoute.Offers);
+
   return data;
 });
 

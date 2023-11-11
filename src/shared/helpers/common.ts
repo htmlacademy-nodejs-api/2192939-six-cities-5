@@ -33,9 +33,12 @@ export function getErrorMessage(error: unknown): string {
 }
 
 export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
-  return plainToInstance(someDto, plainObject, {
+  const offers = plainToInstance(someDto, plainObject, {
     excludeExtraneousValues: true,
   });
+
+  console.log(offers);
+  return offers;
 }
 
 export function createErrorObject(
