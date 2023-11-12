@@ -30,7 +30,7 @@ export class ImagesPathTransformer {
           `${getFullServerPath(serverHost, serverPort)}${uploadPath}/${image}`
       );
     }
-    console.log(data);
+
     return data;
   }
 }
