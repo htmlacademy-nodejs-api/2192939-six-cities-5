@@ -1,9 +1,10 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { City, HousingType, Location } from '../../../types/index.js';
 import { UserRdo } from '../../user/rdo/user.rdo.js';
 
 export class OfferRdo {
-  @Expose({ name: '_id' })
+  @Expose()
+  @Transform((query) => query.obj['_id'])
   public id: string;
 
   @Expose()

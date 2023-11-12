@@ -14,6 +14,7 @@ import { fillDTO } from '../../helpers/common.js';
 import {
   BaseController,
   DocumentExistsMiddleware,
+  HttpError,
   HttpMethod,
   PrivateRouteMiddleware,
   UploadFileMiddleware,
@@ -27,6 +28,10 @@ import { ReviewRdo } from '../review/index.js';
 import { ParamCityName } from './types/param-cityname.type.js';
 import { Config } from '../../libs/config/config.interface.js';
 import { RestSchema } from '../../libs/config/rest.schema.js';
+import { UploadFilesMiddleware } from '../../libs/rest/middleware/upload-files.middleware.js';
+import { UploadImagesRdo } from './rdo/upload-images.rdo.js';
+import { StatusCodes } from 'http-status-codes';
+import { ImagesPathTransformer } from '../../libs/rest/transform/images-path.transformer.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -36,7 +41,10 @@ export class OfferController extends BaseController {
     private readonly offerService: OfferService,
     @inject(Component.ReviewService)
     private readonly reviewService: ReviewService,
-    @inject(Component.Config) private readonly configService: Config<RestSchema>
+    @inject(Component.Config)
+    private readonly configService: Config<RestSchema>,
+    @inject(Component.ImagesPathTransformer)
+    private readonly imagePathTransformer: ImagesPathTransformer
   ) {
     super(logger);
 
@@ -109,6 +117,19 @@ export class OfferController extends BaseController {
         ),
       ],
     });
+    this.addRoute({
+      path: '/:offerId/images',
+      method: HttpMethod.Post,
+      handler: this.uploadImages,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFilesMiddleware(
+          this.configService.get('UPLOAD_DIRECTORY'),
+          'images'
+        ),
+      ],
+    });
   }
 
   public async index(req: Request, res: Response): Promise<void> {
@@ -136,7 +157,7 @@ export class OfferController extends BaseController {
     const userId = req.tokenPayload?.id;
     const offer = await this.offerService.findById(offerId, userId);
 
-    this.ok(res, fillDTO(OfferRdo, offer));
+    this.ok(res, fillDTO(OfferRdo, this.imagePathTransformer.execute(offer)));
   }
 
   public async delete(
@@ -193,5 +214,23 @@ export class OfferController extends BaseController {
     const updateDto = { imagePreview: file?.filename };
     await this.offerService.updateById(offerId, userId, updateDto);
     this.created(res, fillDTO(UploadImageRdo, updateDto));
+  }
+
+  public async uploadImages(req: Request<ParamOfferId>, res: Response) {
+    const offerId = req.params.offerId;
+    const userId = req.tokenPayload.id;
+    const files = req.files;
+    if (!Array.isArray(files)) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'Invalid input data for rent offer files',
+        'DefaultRentOfferController'
+      );
+    }
+    const filenames = files.map((file) => file.filename);
+
+    const updateDto = { images: filenames };
+    await this.offerService.updateById(offerId, userId, updateDto);
+    this.created(res, fillDTO(UploadImagesRdo, updateDto));
   }
 }

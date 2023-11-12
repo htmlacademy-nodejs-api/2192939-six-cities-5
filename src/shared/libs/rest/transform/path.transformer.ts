@@ -36,6 +36,7 @@ export class PathTransformer {
 
   public execute(data: Record<string, unknown>): Record<string, unknown> {
     const stack = [data];
+
     while (stack.length > 0) {
       const current = stack.pop();
 
@@ -65,6 +66,7 @@ export class PathTransformer {
         }
       }
     }
+
     return data;
   }
 }
