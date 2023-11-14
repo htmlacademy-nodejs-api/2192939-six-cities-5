@@ -22,11 +22,11 @@ export type User = {
 };
 
 export type Comment = {
-  id: string;
-  comment: string;
+  text: string;
   date: string;
   rating: number;
-  user: User;
+  offerId: string;
+  userId: User;
 };
 
 export type Offer = {
@@ -63,9 +63,9 @@ export type NewOffer = {
   images: string[];
 };
 
-export type NewComment = Pick<Comment, 'comment' | 'rating'>;
-export type UserAuth = Pick<User, 'email'> & { password: string };
+export type NewComment = Pick<Comment, 'text' | 'rating'>;
 export type CommentAuth = NewComment & Pick<Offer, 'id'>;
+export type UserAuth = Pick<User, 'email'> & { password: string };
 export type FavoriteAuth = Offer['id'];
 export type UserRegister = Omit<User, 'avatarUrl'> &
   Pick<UserAuth, 'password'> & { avatar?: File };

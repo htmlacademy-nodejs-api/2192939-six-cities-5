@@ -194,6 +194,9 @@ export class OfferController extends BaseController {
     res: Response
   ): Promise<void> {
     const reviews = await this.reviewService.findByOfferId(params.offerId);
+
+    console.log('get reviews', fillDTO(ReviewRdo, reviews));
+
     this.ok(res, fillDTO(ReviewRdo, reviews));
   }
 

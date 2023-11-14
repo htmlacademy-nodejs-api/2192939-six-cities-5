@@ -213,12 +213,13 @@ export const postComment = createAsyncThunk<
   Comment,
   CommentAuth,
   { extra: Extra }
->(Action.POST_COMMENT, async ({ id, comment, rating }, { extra }) => {
+>(Action.POST_COMMENT, async ({ id, text, rating }, { extra }) => {
   const { api } = extra;
-  const { data } = await api.post<Comment>(
-    `${ApiRoute.Offers}/${id}${ApiRoute.Comments}`,
-    { comment, rating }
-  );
+  const { data } = await api.post<Comment>(`${ApiRoute.Comments}`, {
+    offerId: id,
+    text,
+    rating,
+  });
 
   return data;
 });

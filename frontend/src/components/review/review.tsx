@@ -2,8 +2,8 @@ import type { Comment } from '../../types/types';
 
 import { formatDate, getStarsWidth } from '../../utils';
 
-const Review = ({ comment, date, rating, user }: Comment) => {
-  const { username, avatar } = user;
+const Review = ({ text, date, rating, userId }: Comment) => {
+  const { username, avatar } = userId;
 
   return (
     <li className='reviews__item'>
@@ -30,7 +30,7 @@ const Review = ({ comment, date, rating, user }: Comment) => {
             <span className='visually-hidden'>Rating</span>
           </div>
         </div>
-        <p className='reviews__text'>{comment}</p>
+        <p className='reviews__text'>{text}</p>
         <time className='reviews__time' dateTime={date}>
           {formatDate(date)}
         </time>

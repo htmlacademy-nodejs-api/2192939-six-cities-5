@@ -15,7 +15,7 @@ export class CreateReviewDto {
   @Length(TextLength.min, TextLength.max, {
     message: CreateReviewDtoMessages.text.lengthText,
   })
-  public comment: string;
+  public text: string;
 
   @IsInt({ message: CreateReviewDtoMessages.rating.invalidFormat })
   @Min(RatingValue.min, { message: CreateReviewDtoMessages.rating.minValue })

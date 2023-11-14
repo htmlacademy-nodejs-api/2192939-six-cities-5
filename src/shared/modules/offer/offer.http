@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vcmdhbkBnbWFpbC5jb20iL
 ###
 ## Получить предложение по идентификатору пользователь не авторизован
 
-GET  http://localhost:5000/offers/65333e0e9df1da5dca706699 HTTP/1.1
+GET  http://localhost:5000/offers/65536f4ea99a3f82d4554abb HTTP/1.1
 
 ###
 ## Получить предложение по идентификатору пользователь авторизован
