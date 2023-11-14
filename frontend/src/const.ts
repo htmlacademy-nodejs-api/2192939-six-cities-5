@@ -47,8 +47,8 @@ export enum ApiRoute {
   Logout = '/users/logout',
   Register = '/users/register',
   Avatar = '/users/avatar',
-  Comments = '/comments',
-  Favorite = '/favorites',
+  Comments = '/reviews',
+  Favorite = '/favorite',
   Premium = '/premium',
 }
 
@@ -67,7 +67,7 @@ export enum Sorting {
 
 export enum UserType {
   Pro = 'pro',
-  Regular = 'regular'
+  Regular = 'regular',
 }
 
 export enum StoreSlice {

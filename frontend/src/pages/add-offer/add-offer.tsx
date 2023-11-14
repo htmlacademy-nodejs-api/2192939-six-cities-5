@@ -7,6 +7,7 @@ import { postOffer } from '../../store/action';
 const emptyOffer: NewOffer = {
   title: '',
   description: '',
+  date: new Date(),
   city: { name: CITIES[0], location: CityLocation[CITIES[0]] },
   imagePreview: '',
   isPremium: false,

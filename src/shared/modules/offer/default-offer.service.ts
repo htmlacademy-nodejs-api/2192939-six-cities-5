@@ -153,7 +153,7 @@ export class DefaultOfferService implements OfferService {
     count?: number
   ): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
-    return this.offerModel
+    const offers = await this.offerModel
       .aggregate([
         ...this.reviewsStage,
         ...(await this.favoriteStage(userId)),
@@ -161,6 +161,7 @@ export class DefaultOfferService implements OfferService {
         { $sort: { createdAt: SortType.Down } },
       ])
       .exec();
+    return offers;
   }
 
   public async findById(

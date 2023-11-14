@@ -51,6 +51,7 @@ export class DefaultFavoriteService implements FavoriteService {
 
     const user = await this.userService.findById(userId);
     const favoriteExists = user?.favorites.includes(offerId);
+    console.log(favoriteExists);
 
     if (favoriteExists && status === '1') {
       throw new HttpError(

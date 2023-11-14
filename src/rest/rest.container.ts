@@ -14,6 +14,7 @@ import {
   ValidationExceptionFilter,
 } from '../shared/libs/rest/index.js';
 import { PathTransformer } from '../shared/libs/rest/transform/path.transformer.js';
+import { ImagesPathTransformer } from '../shared/libs/rest/transform/images-path.transformer.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -50,6 +51,10 @@ export function createRestApplicationContainer() {
   restApplicationContainer
     .bind<PathTransformer>(Component.PathTransformer)
     .to(PathTransformer)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ImagesPathTransformer>(Component.ImagesPathTransformer)
+    .to(ImagesPathTransformer)
     .inSingletonScope();
 
   return restApplicationContainer;

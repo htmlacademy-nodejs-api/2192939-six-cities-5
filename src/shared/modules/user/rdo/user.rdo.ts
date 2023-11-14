@@ -1,8 +1,9 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { ObjectId } from 'mongoose';
 
 export class UserRdo {
   @Expose()
+  @Transform((query) => query.obj[query.key])
   public id: string;
 
   @Expose()

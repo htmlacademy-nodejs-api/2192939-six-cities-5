@@ -43,7 +43,9 @@ export default class ReviewController extends BaseController {
     { body, tokenPayload }: CreateReviewRequest,
     res: Response
   ): Promise<void> {
-    if (!(await this.offerService.exists(body.offerId))) {
+    const { offerId } = body;
+
+    if (!(await this.offerService.exists(offerId))) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
         `Offer with id ${body.offerId} not found.`,
