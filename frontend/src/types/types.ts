@@ -1,4 +1,4 @@
-import { CITIES, Sorting, TYPES, UserType } from '../const';
+import { CITIES, Sorting, TYPES } from '../const';
 
 export type CityName = (typeof CITIES)[number];
 export type Type = (typeof TYPES)[number];
@@ -15,9 +15,9 @@ export type City = {
 };
 
 export type User = {
-  name: string;
-  avatarUrl: string;
-  type: UserType;
+  username: string;
+  avatar: string;
+  type: boolean;
   email: string;
 };
 

@@ -13,7 +13,6 @@ import type {
 } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils';
-import { adaptCreateUser } from '../utils/adapters/adapter-to-server';
 
 type Extra = {
   api: AxiosInstance;
@@ -199,10 +198,7 @@ export const registerUser = createAsyncThunk<
 >(Action.REGISTER_USER, async (user, { extra }) => {
   const { api, history } = extra;
 
-  const { data } = await api.post<{ id: string }>(
-    ApiRoute.Register,
-    adaptCreateUser(user)
-  );
+  const { data } = await api.post<{ id: string }>(ApiRoute.Register, user);
   if (user.avatar) {
     const payload = new FormData();
     payload.append('avatar', user.avatar);
@@ -219,12 +215,10 @@ export const postComment = createAsyncThunk<
   { extra: Extra }
 >(Action.POST_COMMENT, async ({ id, comment, rating }, { extra }) => {
   const { api } = extra;
-
-  const { data } = await api.post<Comment>(`${ApiRoute.Comments}`, {
-    comment,
-    rating,
-    id,
-  });
+  const { data } = await api.post<Comment>(
+    `${ApiRoute.Offers}/${id}${ApiRoute.Comments}`,
+    { comment, rating }
+  );
 
   return data;
 });
