@@ -149,6 +149,7 @@ export class OfferController extends BaseController {
       hostId: tokenPayload.id,
     });
     const offer = await this.offerService.findById(result.id);
+
     this.created(res, fillDTO(OfferRdo, offer));
   }
 
@@ -194,8 +195,6 @@ export class OfferController extends BaseController {
     res: Response
   ): Promise<void> {
     const reviews = await this.reviewService.findByOfferId(params.offerId);
-
-    console.log('get reviews', fillDTO(ReviewRdo, reviews));
 
     this.ok(res, fillDTO(ReviewRdo, reviews));
   }

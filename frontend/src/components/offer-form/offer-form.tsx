@@ -57,7 +57,7 @@ const getImages = (
       enteredImages.push(entry[1]);
     }
   }
-  return enteredImages;
+  return enteredImages.slice(1);
 };
 
 type OfferFormProps<T> = {

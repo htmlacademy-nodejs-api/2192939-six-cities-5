@@ -51,6 +51,7 @@ export type Offer = {
 export type NewOffer = {
   title: string;
   description: string;
+  date: Date;
   city: City;
   imagePreview: string;
   isPremium: boolean;

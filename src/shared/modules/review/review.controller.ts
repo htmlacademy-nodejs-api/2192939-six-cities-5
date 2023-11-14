@@ -44,7 +44,6 @@ export default class ReviewController extends BaseController {
     res: Response
   ): Promise<void> {
     const { offerId } = body;
-    console.log(body);
 
     if (!(await this.offerService.exists(offerId))) {
       throw new HttpError(

@@ -85,7 +85,9 @@ export const postOffer = createAsyncThunk<Offer, NewOffer, { extra: Extra }>(
   Action.POST_OFFER,
   async (newOffer, { extra }) => {
     const { api, history } = extra;
+
     const { data } = await api.post<Offer>(ApiRoute.Offers, newOffer);
+
     history.push(`${AppRoute.Property}/${data.id}`);
 
     return data;
